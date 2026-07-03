@@ -10,7 +10,7 @@ import {
 } from '@/interfaces';
 import { useSellerData } from '@/hooks/useSellerData';
 
-export type ViewState = 'dashboard' | 'products' | 'orders' | 'inventory' | 'messages' | 'create-product' | 'manage-variants';
+export type ViewState = 'dashboard' | 'products' | 'orders' | 'inventory' | 'create-product' | 'manage-variants';
 
 interface SellerContextType {
   activeView: ViewState;

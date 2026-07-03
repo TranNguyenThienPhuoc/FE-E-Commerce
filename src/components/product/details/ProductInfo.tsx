@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ContactSellerDialog } from "./ContactSellerDialog";
 
 interface ProductInfoProps {
   product: Product;
@@ -159,12 +158,6 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
           <ShoppingCart size={20} />
           Add to Cart
         </Button>
-        
-        <ContactSellerDialog 
-          sellerId={product.sellerId}
-          sellerName="Người bán"
-          productName={product.name}
-        />
       </div>
     </div>
   );

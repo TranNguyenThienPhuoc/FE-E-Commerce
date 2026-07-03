@@ -16,7 +16,6 @@ import { SellerOrders } from '@/components/sell/SellerOrders'
 import { SellerInventory } from '@/components/sell/SellerInventory'
 import { ProductCreationForm } from '@/components/sell/ProductCreationForm'
 import { VariantManagement } from '@/components/sell/VariantManagement'
-import { SellerMessages } from '../components/sell/SellerMessages'
 
 export const Route = createFileRoute('/sell')({
   component: SellPage,
@@ -85,7 +84,6 @@ function SellPageContent() {
             {activeView === 'products' && <SellerProducts />}
             {activeView === 'orders' && <SellerOrders />}
             {activeView === 'inventory' && <SellerInventory />}
-            {activeView === 'messages' && <SellerMessages />}
             {activeView === 'create-product' && <ProductCreationForm />}
             {activeView === 'manage-variants' && <VariantManagement />}
           </main>

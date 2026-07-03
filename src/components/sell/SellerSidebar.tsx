@@ -3,7 +3,6 @@ import {
   Package, 
   ShoppingCart, 
   ClipboardList, 
-  MessageSquare,
   Box,
   ArrowLeft
 } from 'lucide-react'
@@ -75,16 +74,6 @@ export function SellerSidebar() {
                 >
                   <ClipboardList />
                   <span>Inventory</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton 
-                  isActive={activeView === 'messages'}
-                  onClick={() => setActiveView('messages')}
-                  tooltip="Messages"
-                >
-                  <MessageSquare />
-                  <span>Messages</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

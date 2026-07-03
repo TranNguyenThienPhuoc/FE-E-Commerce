@@ -30,6 +30,23 @@ export function PaymentMethods({ form }: PaymentMethodsProps) {
               </div>
             </div>
 
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <input 
+                  type="radio" 
+                  id="momo" 
+                  name={field.name} 
+                  checked={field.state.value === 'momo'} 
+                  onChange={() => field.handleChange('momo')}
+                  className="w-5 h-5 accent-black"
+                />
+                <Label htmlFor="momo">Ví MoMo</Label>
+              </div>
+              <div className="flex gap-2">
+                <div className="w-10 h-6 bg-pink-500 rounded flex items-center justify-center text-[8px] text-white font-bold">MOMO</div>
+              </div>
+            </div>
+
             <div className="flex items-center space-x-3">
               <input 
                 type="radio" 

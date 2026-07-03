@@ -7,13 +7,11 @@ import { queryClient } from '@/queryClient'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { CartProvider } from '@/contexts/CartContext'
 import { ToastProvider } from '@/contexts/ToastContext'
-import { ChatProvider } from '@/contexts/ChatContext'
 
 import Header from "../components/Header";
 
 import appCss from "../styles.css?url";
 import Footer from "@/components/Homepage/Footer";
-import { ChatBubble } from "@/components/bubbleChat/ChatBubble";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -71,13 +69,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <ToastProvider>
-              <ChatProvider>
-                <CartProvider>
-                  {!hideLayout && <Header />}
-                  {children}
-                  {!hideLayout && <ChatBubble />}
-                </CartProvider>
-              </ChatProvider>
+              <CartProvider>
+                {!hideLayout && <Header />}
+                {children}
+              </CartProvider>
             </ToastProvider>
           </AuthProvider>
           <TanStackDevtools
