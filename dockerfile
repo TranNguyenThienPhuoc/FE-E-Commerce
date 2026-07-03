@@ -13,6 +13,6 @@ RUN bun run build:node
 # Production runtime
 FROM oven/bun:latest AS release
 WORKDIR /usr/src/app
-COPY --from=build /usr/src/app/.output ./.output
+COPY --from=build /usr/src/app/dist ./dist
 EXPOSE 3000
-ENTRYPOINT ["bun", "--bun", "run", ".output/server/index.mjs"]
+ENTRYPOINT ["bun", "--bun", "run", "dist/server/server.js"]

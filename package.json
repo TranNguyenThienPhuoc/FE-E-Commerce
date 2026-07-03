@@ -8,7 +8,7 @@
     "build": "vite build",
     "build:node": "vite build --config vite.config.node.ts",
     "serve": "vite preview",
-    "start": "bun --bun run .output/server/index.mjs",
+    "start": "bun --bun run dist/server/server.js",
     "test": "vitest run",
     "deploy": "wrangler deploy"
   },
