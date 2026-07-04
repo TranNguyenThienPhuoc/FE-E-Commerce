@@ -11,7 +11,7 @@ export class ApiClient {
     const baseURL = 
       import.meta.env?.VITE_API_BASE_URL || 
       process.env?.API_BASE_URL || 
-      "http://localhost:8080/api";
+      "/api";
 
     this.client = axios.create({
       baseURL,

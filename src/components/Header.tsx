@@ -32,7 +32,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold text-gray-900">
-            Social e-commerce
+            zopee
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8 ">

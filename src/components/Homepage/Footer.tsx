@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Social e-commerce</h3>
+            <h3 className="text-xl font-bold mb-4">zopee</h3>
             <h4 className="font-semibold mb-2">Subscribe</h4>
             <p className="text-gray-400 mb-4">Get 10% off your first order</p>
             <div className="flex">

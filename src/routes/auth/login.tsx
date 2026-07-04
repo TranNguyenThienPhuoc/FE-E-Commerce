@@ -55,7 +55,7 @@ function Login() {
         <div className="w-full max-w-md">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Log in to Social e-commerce
+              Log in to zopee
             </h1>
             <p className="text-gray-600">Enter your details below</p>
           </div>
