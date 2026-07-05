@@ -31,7 +31,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
           <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-            <img src="/Logo.png" alt="zopee logo" className="h-24 w-auto object-contain" />
+            <img src="/assets/Logo.png" alt="zopee logo" className="h-24 w-auto object-contain" />
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8 ">
