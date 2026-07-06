@@ -1,8 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ApiClient } from "@/services/api";
 import { Product } from "@/interfaces/product";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/contexts/ToastContext";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Loader2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -11,8 +10,6 @@ const api = ApiClient.getInstance();
 
 export default function WishlistPage() {
   const { isAuthenticated } = useAuth();
-  const { showToast } = useToast();
-  const queryClient = useQueryClient();
 
   const { data: wishlistResponse, isLoading } = useQuery({
     queryKey: ['wishlist'],
