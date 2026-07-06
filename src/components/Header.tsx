@@ -86,13 +86,15 @@ export default function Header() {
               </div>
             )}
             <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-gray-700 hover:text-gray-900 transition-colors"
-              >
-                <Heart size={24} />
-              </Button>
+              <Link to="/wishlist">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                >
+                  <Heart size={24} />
+                </Button>
+              </Link>
               <Link to="/cart">
                 <Button
                   variant="ghost"

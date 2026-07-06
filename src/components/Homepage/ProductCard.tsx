@@ -5,6 +5,7 @@ import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { cn, getImageUrl } from '@/lib/utils'
 import { useCart } from '@/hooks/useCart'
+import { useWishlist } from '@/hooks/useWishlist'
 import { useToast } from '@/contexts/ToastContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { MESSAGES } from '@/lib/shared/constants/messages'
@@ -15,13 +16,13 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false)
   const { addToCart } = useCart()
   const { showToast } = useToast()
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  const { isFavorite, toggleFavorite } = useWishlist()
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -125,18 +126,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             navigate({ to: '/auth/login' });
             return;
           }
-          setIsFavorite(!isFavorite);
-          showToast({
-            title: isFavorite ? 'Đã bỏ yêu thích' : 'Thêm vào yêu thích thành công',
-            variant: 'success',
-            duration: 2000,
-          });
+          toggleFavorite(product.id);
         }}
       >
         <Heart 
           size={16} 
           className={cn(
-            isFavorite ? "text-red-500 fill-red-500" : "text-gray-600"
+            isFavorite(product.id) ? "text-red-500 fill-red-500" : "text-gray-600"
           )} 
         />
       </div>

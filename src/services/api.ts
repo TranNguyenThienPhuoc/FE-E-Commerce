@@ -62,6 +62,10 @@ export class ApiClient {
 
       switch (status) {
         case 401:
+          cookies.remove('accessToken', { path: '/' });
+          if (window.location.pathname !== '/auth/login') {
+            window.location.href = '/auth/login';
+          }
           return "Session expired. Please log in again.";
         case 403:
           return "You do not have permission to perform this action.";

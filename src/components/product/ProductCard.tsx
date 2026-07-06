@@ -1,10 +1,11 @@
-import { ShoppingCart, Eye } from 'lucide-react'
+import { ShoppingCart, Eye, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { useCart } from '@/hooks/useCart'
-import { useToast } from '@/contexts/ToastContext'
 import { useAuth } from '@/contexts/AuthContext'
+import { useWishlist } from '@/hooks/useWishlist'
+import { useToast } from '@/contexts/ToastContext'
 import type { MockProduct } from '@/data/demo.products'
 
 interface ProductCardProps {
@@ -33,9 +34,10 @@ export function ProductCard({
   product,
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
-  const { addToCart } = useCart() // Đổi từ addItem sang addToCart
+  const { addToCart } = useCart()
   const { showToast } = useToast()
   const { isAuthenticated } = useAuth()
+  const { isFavorite, toggleFavorite } = useWishlist()
 
   const discountedPrice = discount ? price - (price * discount) / 100 : price
 
@@ -115,6 +117,33 @@ export function ProductCard({
           {stock === 0 && (
             <Badge className="bg-gray-500 text-white">Hết hàng</Badge>
           )}
+        </div>
+
+        {/* Favorite Button */}
+        <div 
+          className="absolute top-3 right-14 bg-white rounded-full p-2 cursor-pointer hover:bg-gray-100 z-10 shadow-md"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (!isAuthenticated) {
+              showToast({
+                title: 'Vui lòng đăng nhập',
+                description: 'Bạn cần đăng nhập để thêm vào yêu thích',
+                variant: 'error',
+                duration: 3000,
+              });
+              window.location.href = '/auth/login';
+              return;
+            }
+            toggleFavorite(id);
+          }}
+        >
+          <Heart 
+            size={20} 
+            className={
+              isFavorite(id) ? "text-red-500 fill-red-500" : "text-gray-600"
+            } 
+          />
         </div>
 
         {/* Add to Cart Button - Corner */}
