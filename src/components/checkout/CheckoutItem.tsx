@@ -27,7 +27,7 @@ export function CheckoutItem({ productId, name, price, quantity }: CheckoutItemP
         </div>
         <span className="text-sm font-medium truncate max-w-[150px]">{name}</span>
       </div>
-      <span className="text-sm font-medium">${(price * quantity).toFixed(2)}</span>
+      <span className="text-sm font-medium">{(price * quantity).toLocaleString('vi-VN')}₫</span>
     </div>
   )
 }

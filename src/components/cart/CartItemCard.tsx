@@ -84,7 +84,7 @@ export function CartItemCard({ item, onUpdateQuantity, onRemove, isProcessing = 
 
       {/* Price */}
       <div className="text-center">
-        ${item.price.toFixed(2)}
+        {item.price.toLocaleString('vi-VN')}₫
       </div>
 
       {/* Quantity */}
@@ -114,7 +114,7 @@ export function CartItemCard({ item, onUpdateQuantity, onRemove, isProcessing = 
 
       {/* Subtotal */}
       <div className="text-right font-medium">
-        ${(item.price * item.quantity).toFixed(2)}
+        {(item.price * item.quantity).toLocaleString('vi-VN')}₫
       </div>
     </div>
   )

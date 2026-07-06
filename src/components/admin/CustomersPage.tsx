@@ -39,7 +39,7 @@ export function CustomersPage() {
   const pagination = usersData?.pagination
   
   const customers = useMemo(() => 
-    users.filter(user => user.role === 'customer'),
+    users.filter(user => user.role !== 'admin'),
     [users]
   )
 

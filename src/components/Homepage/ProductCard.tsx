@@ -194,10 +194,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="p-4">
           <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-lg font-bold text-red-500">${product.price}</span>
+            <span className="text-lg font-bold text-red-500">{product.price.toLocaleString('vi-VN')}₫</span>
             {product.originalPrice && (
               <span className="text-sm text-gray-500 line-through">
-                ${product.originalPrice}
+                {product.originalPrice.toLocaleString('vi-VN')}₫
               </span>
             )}
           </div>

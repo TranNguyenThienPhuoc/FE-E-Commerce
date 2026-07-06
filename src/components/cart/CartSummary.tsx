@@ -16,7 +16,7 @@ export function CartSummary({ totalPrice, itemCount, onCheckout, isLoading = fal
       <div className="space-y-4">
         <div className="flex justify-between items-center pb-4 border-b">
           <span>Subtotal:</span>
-          <span>${totalPrice.toFixed(2)}</span>
+          <span>{totalPrice.toLocaleString('vi-VN')}₫</span>
         </div>
         
         <div className="flex justify-between items-center pb-4 border-b">
@@ -26,7 +26,7 @@ export function CartSummary({ totalPrice, itemCount, onCheckout, isLoading = fal
         
         <div className="flex justify-between items-center pt-2 mb-8">
           <span>Total:</span>
-          <span>${totalPrice.toFixed(2)}</span>
+          <span>{totalPrice.toLocaleString('vi-VN')}₫</span>
         </div>
       </div>
 

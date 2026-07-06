@@ -31,7 +31,7 @@ export function OrderSummary({ form, cart, getTotalPrice, isProcessing }: OrderS
       <div className="space-y-4 border-b pb-4">
         <div className="flex justify-between items-center">
           <span>Subtotal:</span>
-          <span>${getTotalPrice().toFixed(2)}</span>
+          <span>{getTotalPrice().toLocaleString('vi-VN')}₫</span>
         </div>
         <div className="flex justify-between items-center">
           <span>Shipping:</span>
@@ -39,7 +39,7 @@ export function OrderSummary({ form, cart, getTotalPrice, isProcessing }: OrderS
         </div>
         <div className="flex justify-between items-center font-medium text-lg">
           <span>Total:</span>
-          <span>${getTotalPrice().toFixed(2)}</span>
+          <span>{getTotalPrice().toLocaleString('vi-VN')}₫</span>
         </div>
       </div>
 

@@ -88,7 +88,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-xl font-bold mb-4">Download App</h3>
-            <p className="text-gray-400 mb-4 text-sm">Save $5 with App New User Only</p>
+            <p className="text-gray-400 mb-4 text-sm">Giảm 50.000₫ cho người dùng mới trên App</p>
             <div className="flex gap-4 mb-4">
               <div className="p-2 rounded">
                 <img

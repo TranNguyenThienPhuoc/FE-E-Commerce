@@ -86,7 +86,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
       <div className="space-y-2">
         <div className="flex items-baseline gap-4">
           <p className="text-4xl font-bold text-primary">
-            ${product.price.toFixed(2)}
+            {product.price.toLocaleString('vi-VN')}₫
           </p>
         </div>
         <p
@@ -138,7 +138,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
                     </p>
                   </div>
                   <p className="font-black text-primary">
-                    ${variant.price.toFixed(2)}
+                    {variant.price.toLocaleString('vi-VN')}₫
                   </p>
                 </div>
               </Card>

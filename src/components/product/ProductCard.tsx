@@ -64,23 +64,7 @@ export function ProductCard({
     }
 
     try {
-      // Tạo MockProduct object nếu không có
-      const productToAdd: MockProduct = product || {
-        id,
-        name,
-        price,
-        image: imageUrl,
-        category: 'default',
-        rating: rating || 0,
-        reviewCount: reviewCount || 0,
-      }
-      
-      
-      showToast({
-        title: 'Đã thêm vào giỏ hàng',
-        description: `${name} đã được thêm vào giỏ hàng`,
-        variant: 'success',
-      })
+      addToCart({ productId: id, quantity: 1 })
     } catch (error) {
       showToast({
         title: 'Có lỗi xảy ra',
