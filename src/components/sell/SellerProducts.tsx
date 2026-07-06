@@ -9,6 +9,7 @@ import {
 import { useSeller } from '@/contexts/SellerContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { cn, getImageUrl } from '@/lib/utils'
 import {
   Table,
   TableBody,
@@ -117,8 +118,8 @@ export function SellerProducts() {
                   <TableCell>
                     <div className="h-10 w-10 rounded-md bg-muted overflow-hidden border">
                       {product.images?.[0] ? (
-                        <img 
-                          src={product.images[0]} 
+                          <img 
+                            src={getImageUrl(product.images[0])} 
                           alt={product.name} 
                           className="h-full w-full object-cover" 
                         />

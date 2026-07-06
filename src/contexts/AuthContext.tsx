@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin',
     isCustomer: user?.role === 'customer',
-    canCreateProduct: user?.role === 'admin' || user?.role === 'customer',
+    canCreateProduct: user?.role === 'admin' || user?.role === 'seller',
     error,
   }
 

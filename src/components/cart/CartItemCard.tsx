@@ -3,6 +3,7 @@ import { ShoppingCart, ChevronUp, ChevronDown, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useProduct } from '@/hooks/useProducts'
+import { getImageUrl } from '@/lib/utils'
 import type { CartItem } from '@/interfaces/cart'
 
 interface CartItemCardProps {
@@ -61,7 +62,7 @@ export function CartItemCard({ item, onUpdateQuantity, onRemove, isProcessing = 
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary" />
             ) : product?.images && product.images.length > 0 ? (
               <img
-                src={product.images[0]}
+                src={getImageUrl(product.images[0])}
                 alt={item.name}
                 className="w-full h-full object-contain"
                 onError={(e) => {

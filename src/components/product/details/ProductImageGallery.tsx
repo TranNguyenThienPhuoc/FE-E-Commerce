@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 interface ProductImageGalleryProps {
@@ -18,7 +18,7 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const displayImages = images.length > 0 ? images : ["/placeholder.png"];
+  const displayImages = images.length > 0 ? images.map(img => getImageUrl(img)) : [getImageUrl(null)];
 
   return (
     <div className="space-y-4">

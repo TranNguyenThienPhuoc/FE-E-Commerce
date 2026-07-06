@@ -3,7 +3,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { Heart, Star, ShoppingCart, Eye } from 'lucide-react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
-import { cn } from '@/lib/utils'
+import { cn, getImageUrl } from '@/lib/utils'
 import { useCart } from '@/hooks/useCart'
 import { useToast } from '@/contexts/ToastContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -113,7 +113,25 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Favorite Button */}
       <div 
         className="absolute top-2 right-14 bg-white rounded-full p-2 cursor-pointer hover:bg-gray-100 z-10 shadow-md"
-        onClick={() => setIsFavorite(!isFavorite)}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!isAuthenticated) {
+            showToast({
+              title: 'Vui lòng đăng nhập',
+              description: 'Bạn cần đăng nhập để thêm vào yêu thích',
+              variant: 'error',
+              duration: 3000,
+            });
+            navigate({ to: '/auth/login' });
+            return;
+          }
+          setIsFavorite(!isFavorite);
+          showToast({
+            title: isFavorite ? 'Đã bỏ yêu thích' : 'Thêm vào yêu thích thành công',
+            variant: 'success',
+            duration: 2000,
+          });
+        }}
       >
         <Heart 
           size={16} 
@@ -140,7 +158,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <Card className="overflow-hidden hover:shadow-lg transition-shadow border-0 py-0 gap-0">
         <div className="aspect-square bg-gray-100 overflow-hidden relative">
           <img
-            src={product.image || product.images?.[0] || '/placeholder.png'}
+            src={getImageUrl(product.image || product.images?.[0])}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
