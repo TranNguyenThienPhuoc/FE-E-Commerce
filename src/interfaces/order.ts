@@ -16,7 +16,6 @@ export interface Order {
   id: string
   orderNumber?: string
   customerId: string
-  sellerId: string
   cartId: string
   items: OrderItem[]
   totalAmount: number

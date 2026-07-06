@@ -62,8 +62,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootDocument({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
-  const isSell = location.pathname.startsWith("/sell");
-  const hideLayout = isAdmin || isSell;
+  const hideLayout = isAdmin;
 
   return (
     <html lang="en">

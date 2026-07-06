@@ -9,8 +9,8 @@ export type ProductStatus =
 
 export interface Product {
   id: string;
-  sellerId: string;
   name: string;
+  seoTitle?: string;
   description?: string;
   price: number;
   stock: number;
@@ -59,6 +59,7 @@ export interface CategoryResponse {
 
 export interface CreateProductRequest {
   name: string;
+  seoTitle?: string;
   description?: string;
   price: number;
   stock: number;
@@ -70,6 +71,7 @@ export interface CreateProductRequest {
 
 export interface UpdateProductRequest {
   name?: string;
+  seoTitle?: string;
   description?: string;
   price?: number;
   stock?: number;

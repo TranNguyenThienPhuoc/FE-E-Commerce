@@ -17,7 +17,7 @@ import { Badge } from "./ui/badge";
 import { useState } from "react";
 
 export default function Header() {
-  const { user, logout, isAuthenticated, isAdmin, canCreateProduct } =
+  const { user, logout, isAuthenticated, isAdmin } =
     useAuth();
   const { getItemCount } = useCart();
   const navigate = useNavigate();
@@ -134,20 +134,7 @@ export default function Header() {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {canCreateProduct && (
-                      <DropdownMenuItem asChild>
-                        <Link to="/sell" className="cursor-pointer">
-                          Sell Product
-                        </Link>
-                      </DropdownMenuItem>
-                    )}
-                    {!canCreateProduct && !isAdmin && (
-                      <DropdownMenuItem asChild>
-                        <Link to="/become-seller" className="cursor-pointer">
-                          Become a Seller
-                        </Link>
-                      </DropdownMenuItem>
-                    )}
+
                     {isAdmin && (
                       <>
                         <DropdownMenuItem asChild>

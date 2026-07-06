@@ -89,23 +89,7 @@ export function useDeleteProduct() {
   })
 }
 
-export function useApproveProduct() {
-  const queryClient = useQueryClient()
-  
-  return useMutation({
-    mutationFn: async (id: string) => {
-      const response = await productService.approveProduct(id)
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to approve product')
-      }
-      return response.data
-    },
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries({ queryKey: PRODUCT_KEYS.lists() })
-      queryClient.invalidateQueries({ queryKey: PRODUCT_KEYS.detail(id) })
-    },
-  })
-}
+
 
 export function useUploadProductImage() {
   return useMutation({

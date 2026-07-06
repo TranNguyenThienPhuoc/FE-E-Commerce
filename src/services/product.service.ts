@@ -19,12 +19,6 @@ class ProductService {
     return await apiClient.get<PaginatedResponse<Product>>('/products', params);
   }
 
-  /**
-   * Fetch products belonging to the current user (seller)
-   */
-  async getMyProducts(params?: ProductQueryParams): Promise<PaginatedResponse<Product>> {
-    return await apiClient.get<PaginatedResponse<Product>>('/products/user', params);
-  }
 
   async getProduct(id: string): Promise<ApiResponse<Product>> {
     return await apiClient.get<ApiResponse<Product>>(`/products/${id}`);
@@ -92,15 +86,6 @@ class ProductService {
     );
   }
 
-  /**
-   * Approve a pending product (Admin only)
-   */
-  async approveProduct(id: string, status: 'active' | 'rejected' = 'active'): Promise<ApiResponse<Product>> {
-    return await apiClient.patch<ApiResponse<Product>, { status: string }>(
-      `/products/${id}/approve`,
-      { status }
-    );
-  }
 
   /**
    * Variants

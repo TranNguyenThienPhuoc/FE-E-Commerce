@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dialog'
 import { Plus, Search, Edit, Trash2, Eye, Loader2, CheckCircle } from 'lucide-react'
 import { useState, useMemo, useEffect, useDeferredValue } from 'react'
-import { useProducts, useDeleteProduct, useApproveProduct } from '@/hooks/useProducts'
+import { useProducts, useDeleteProduct } from '@/hooks/useProducts'
 import { useToast } from '@/contexts/ToastContext'
 import { ProductForm } from '@/components/admin/ProductForm'
 import { Product } from '@/interfaces'
@@ -37,7 +37,6 @@ export function ProductsPage() {
   const { showToast } = useToast()
   const { data: productsData, isLoading, error, refetch } = useProducts()
   const deleteProductMutation = useDeleteProduct()
-  const approveProductMutation = useApproveProduct()
   
   const products = productsData?.data || []
   
@@ -91,23 +90,7 @@ export function ProductsPage() {
     }
   }
 
-  const handleApproveProduct = async (id: string) => {
-    try {
-      await approveProductMutation.mutateAsync(id)
-      showToast({
-        title: 'Thành công',
-        description: 'Đã duyệt sản phẩm',
-        variant: 'success',
-      })
-    } catch (err) {
-      showToast({
-        title: 'Lỗi',
-        description: 'Không thể duyệt sản phẩm',
-        variant: 'error',
-      })
-    }
-  }
-  
+
   const statistics = useMemo(() => {
     const lowStockCount = products.filter(p => {
       const total = p.variants && p.variants.length > 0
@@ -124,7 +107,7 @@ export function ProductsPage() {
     }).length
 
     const pendingCount = products.filter(p => p.status === 'pending').length
-    
+
     return {
       total: products.length,
       lowStock: lowStockCount,
@@ -255,17 +238,7 @@ export function ProductsPage() {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
-                          {product.status === 'pending' && (
-                            <Button 
-                              variant="ghost" 
-                              size="icon"
-                              title="Duyệt sản phẩm"
-                              onClick={() => handleApproveProduct(product.id)}
-                              disabled={approveProductMutation.isPending}
-                            >
-                              <CheckCircle className="h-4 w-4 text-green-600" />
-                            </Button>
-                          )}
+
                           <Button 
                             variant="ghost" 
                             size="icon"

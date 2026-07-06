@@ -9,12 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SellRouteImport } from './routes/sell'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CartRouteImport } from './routes/cart'
-import { Route as BecomeSellerRouteImport } from './routes/become-seller'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,16 +23,9 @@ import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AdminSupportRouteImport } from './routes/admin/support'
-import { Route as AdminSettlementsRouteImport } from './routes/admin/settlements'
-import { Route as AdminSellersRouteImport } from './routes/admin/sellers'
 import { Route as AdminProductsRouteImport } from './routes/admin/products'
 import { Route as AdminCustomersRouteImport } from './routes/admin/customers'
 
-const SellRoute = SellRouteImport.update({
-  id: '/sell',
-  path: '/sell',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -53,11 +44,6 @@ const CheckoutRoute = CheckoutRouteImport.update({
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BecomeSellerRoute = BecomeSellerRouteImport.update({
-  id: '/become-seller',
-  path: '/become-seller',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -110,16 +96,6 @@ const AdminSupportRoute = AdminSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminSettlementsRoute = AdminSettlementsRouteImport.update({
-  id: '/settlements',
-  path: '/settlements',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSellersRoute = AdminSellersRouteImport.update({
-  id: '/sellers',
-  path: '/sellers',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminProductsRoute = AdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -135,16 +111,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/become-seller': typeof BecomeSellerRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
-  '/sell': typeof SellRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/products': typeof AdminProductsRoute
-  '/admin/sellers': typeof AdminSellersRoute
-  '/admin/settlements': typeof AdminSettlementsRoute
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -156,16 +128,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/become-seller': typeof BecomeSellerRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
-  '/sell': typeof SellRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/products': typeof AdminProductsRoute
-  '/admin/sellers': typeof AdminSellersRoute
-  '/admin/settlements': typeof AdminSettlementsRoute
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -179,16 +147,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/become-seller': typeof BecomeSellerRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
-  '/sell': typeof SellRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/products': typeof AdminProductsRoute
-  '/admin/sellers': typeof AdminSellersRoute
-  '/admin/settlements': typeof AdminSettlementsRoute
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -203,16 +167,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/become-seller'
     | '/cart'
     | '/checkout'
     | '/contact'
     | '/search'
-    | '/sell'
     | '/admin/customers'
     | '/admin/products'
-    | '/admin/sellers'
-    | '/admin/settlements'
     | '/admin/support'
     | '/auth/login'
     | '/auth/register'
@@ -224,16 +184,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/become-seller'
     | '/cart'
     | '/checkout'
     | '/contact'
     | '/search'
-    | '/sell'
     | '/admin/customers'
     | '/admin/products'
-    | '/admin/sellers'
-    | '/admin/settlements'
     | '/admin/support'
     | '/auth/login'
     | '/auth/register'
@@ -246,16 +202,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/become-seller'
     | '/cart'
     | '/checkout'
     | '/contact'
     | '/search'
-    | '/sell'
     | '/admin/customers'
     | '/admin/products'
-    | '/admin/sellers'
-    | '/admin/settlements'
     | '/admin/support'
     | '/auth/login'
     | '/auth/register'
@@ -269,12 +221,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
-  BecomeSellerRoute: typeof BecomeSellerRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
   ContactRoute: typeof ContactRoute
   SearchRoute: typeof SearchRoute
-  SellRoute: typeof SellRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
@@ -282,13 +232,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sell': {
-      id: '/sell'
-      path: '/sell'
-      fullPath: '/sell'
-      preLoaderRoute: typeof SellRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -315,13 +258,6 @@ declare module '@tanstack/react-router' {
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/become-seller': {
-      id: '/become-seller'
-      path: '/become-seller'
-      fullPath: '/become-seller'
-      preLoaderRoute: typeof BecomeSellerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -394,20 +330,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSupportRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/settlements': {
-      id: '/admin/settlements'
-      path: '/settlements'
-      fullPath: '/admin/settlements'
-      preLoaderRoute: typeof AdminSettlementsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/sellers': {
-      id: '/admin/sellers'
-      path: '/sellers'
-      fullPath: '/admin/sellers'
-      preLoaderRoute: typeof AdminSellersRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/products': {
       id: '/admin/products'
       path: '/products'
@@ -428,8 +350,6 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminProductsRoute: typeof AdminProductsRoute
-  AdminSellersRoute: typeof AdminSellersRoute
-  AdminSettlementsRoute: typeof AdminSettlementsRoute
   AdminSupportRoute: typeof AdminSupportRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -437,8 +357,6 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCustomersRoute: AdminCustomersRoute,
   AdminProductsRoute: AdminProductsRoute,
-  AdminSellersRoute: AdminSellersRoute,
-  AdminSettlementsRoute: AdminSettlementsRoute,
   AdminSupportRoute: AdminSupportRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -463,12 +381,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
-  BecomeSellerRoute: BecomeSellerRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
   ContactRoute: ContactRoute,
   SearchRoute: SearchRoute,
-  SellRoute: SellRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
