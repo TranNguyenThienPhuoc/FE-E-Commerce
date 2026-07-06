@@ -71,10 +71,6 @@ class AuthService {
       return user as User;
     }
 
-    if (typeof window !== "undefined" && (!user || !token)) {
-      this.logout();
-    }
-
     return null;
   }
 
