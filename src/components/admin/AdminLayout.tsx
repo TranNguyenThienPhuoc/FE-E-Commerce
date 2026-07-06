@@ -11,7 +11,7 @@ import {
   SidebarFooter,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Package, Users, Headset, LogOut, WalletCards } from "lucide-react";
+import { Package, Users, Headset, LogOut, WalletCards, Store } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 const menuItems = [
   { title: "Products", icon: Package, path: "/admin/products" },
   { title: "Customers", icon: Users, path: "/admin/customers" },
+  { title: "Sellers", icon: Store, path: "/admin/sellers" },
   { title: "Settlements", icon: WalletCards, path: "/admin/settlements" },
   { title: "Support", icon: Headset, path: "/admin/support" },
 ];

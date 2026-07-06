@@ -7,6 +7,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>
   register: (name: string, email: string, password: string) => Promise<boolean>
   logout: () => void
+  updateUser: (user: User) => void
   isAuthenticated: boolean
   isAdmin: boolean
   isCustomer: boolean
@@ -70,11 +71,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setError(null)
   }
 
+  const updateUser = (newUser: User) => {
+    setUser(newUser);
+    import('universal-cookie').then((Cookies) => {
+      const cookies = new Cookies.default(null, { path: "/" });
+      cookies.set("user", newUser, {
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict" as const,
+      });
+    });
+  }
+
   const value: AuthContextType = {
     user,
     login,
     register,
     logout,
+    updateUser,
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin',
     isCustomer: user?.role === 'customer',

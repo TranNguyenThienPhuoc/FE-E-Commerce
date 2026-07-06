@@ -1,18 +1,27 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Store, TrendingUp, Wallet, CheckCircle2 } from 'lucide-react';
+import { Store, TrendingUp, Wallet, CheckCircle2, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
 import { useToast } from '@/contexts/ToastContext';
 import { apiClient } from '@/services/api';
 
 function BecomeSellerPage() {
-  const { user, login } = useAuth();
+  const { user, updateUser } = useAuth();
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    shopName: '',
+    shopAddress: '',
+    shopDescription: ''
+  });
 
-  const handleUpgrade = async () => {
+  const handleStartRegister = () => {
     if (!user) {
       showToast({ type: 'error', title: 'Cần đăng nhập', message: 'Vui lòng đăng nhập để đăng ký trở thành Người bán' });
       navigate({ to: '/auth/login', search: { redirect: '/become-seller' } });
@@ -24,23 +33,27 @@ function BecomeSellerPage() {
       navigate({ to: '/sell' });
       return;
     }
+    
+    setShowForm(true);
+  };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     try {
-      // Call our new backend API
-      // Use any to bypass strict type checking for the quick demo
-      const res: any = await apiClient.post('/users/upgrade-to-seller', {});
+      const res: any = await apiClient.post('/users/seller-register', formData);
       
-      if (res.success && res.data?.accessToken) {
-        // Log them back in with the new token so Context gets updated
-        login(res.data.accessToken);
-        showToast({ type: 'success', title: 'Đăng ký thành công', message: 'Chào mừng bạn đến với kênh Người Bán Zopee!' });
-        navigate({ to: '/sell' });
+      if (res.success) {
+        if (user) {
+          updateUser({ ...user, sellerStatus: 'pending', shopName: formData.shopName });
+        }
+        showToast({ type: 'success', title: 'Thành công', message: 'Đã gửi đơn đăng ký. Vui lòng chờ Admin duyệt.' });
+        setShowForm(false);
       } else {
-        showToast({ type: 'error', title: 'Lỗi đăng ký', message: res.message || 'Đã có lỗi xảy ra' });
+        showToast({ type: 'error', title: 'Lỗi', message: res.message || 'Đã có lỗi xảy ra' });
       }
     } catch (error: any) {
-      showToast({ type: 'error', title: 'Lỗi kết nối', message: error.response?.data?.message || 'Không thể kết nối đến máy chủ' });
+      showToast({ type: 'error', title: 'Lỗi', message: error.response?.data?.message || 'Không thể kết nối đến máy chủ' });
     } finally {
       setLoading(false);
     }
@@ -58,17 +71,77 @@ function BecomeSellerPage() {
             Tiếp cận hàng triệu khách hàng tiềm năng, công cụ quản lý bán hàng chuyên nghiệp và hỗ trợ rút tiền nhanh chóng qua VietQR.
           </p>
           <div className="mt-10">
-            <Button 
-              size="lg" 
-              className="bg-white text-blue-600 hover:bg-gray-100 h-14 px-8 text-lg font-bold"
-              onClick={handleUpgrade}
-              disabled={loading}
-            >
-              {loading ? 'Đang xử lý...' : 'Đăng ký miễn phí ngay'}
-            </Button>
+            {user?.sellerStatus === 'pending' ? (
+              <div className="bg-yellow-500/20 border border-yellow-400 text-yellow-100 p-6 rounded-xl flex items-center justify-center gap-3">
+                <Clock className="w-6 h-6" />
+                <span className="text-xl font-medium">Đơn đăng ký của bạn đang được Admin chờ duyệt</span>
+              </div>
+            ) : user?.sellerStatus === 'rejected' ? (
+              <div className="bg-red-500/20 border border-red-400 text-red-100 p-6 rounded-xl flex flex-col items-center justify-center gap-2">
+                <span className="text-xl font-medium">Đơn đăng ký của bạn đã bị từ chối</span>
+                <Button variant="outline" onClick={handleStartRegister} className="mt-2 text-black">Đăng ký lại</Button>
+              </div>
+            ) : (
+              !showForm && (
+                <Button 
+                  size="lg" 
+                  className="bg-white text-blue-600 hover:bg-gray-100 h-14 px-8 text-lg font-bold"
+                  onClick={handleStartRegister}
+                >
+                  Đăng ký ngay
+                </Button>
+              )
+            )}
           </div>
         </div>
       </div>
+
+      {showForm && (
+        <div className="max-w-2xl mx-auto px-4 mt-8">
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="text-2xl font-bold mb-6">Thông tin Cửa hàng</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="shopName">Tên Cửa hàng (*)</Label>
+                <Input 
+                  id="shopName" 
+                  value={formData.shopName}
+                  onChange={e => setFormData({...formData, shopName: e.target.value})}
+                  required
+                  placeholder="Ví dụ: Zopee Official Store" 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="shopAddress">Địa chỉ lấy hàng (*)</Label>
+                <Input 
+                  id="shopAddress" 
+                  value={formData.shopAddress}
+                  onChange={e => setFormData({...formData, shopAddress: e.target.value})}
+                  required
+                  placeholder="Ví dụ: 123 Nguyễn Văn Linh, Quận 7, TP.HCM" 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="shopDescription">Mô tả thêm (Tùy chọn)</Label>
+                <Textarea 
+                  id="shopDescription" 
+                  value={formData.shopDescription}
+                  onChange={e => setFormData({...formData, shopDescription: e.target.value})}
+                  placeholder="Thông tin giới thiệu cửa hàng của bạn" 
+                />
+              </div>
+              <div className="pt-4 flex gap-3">
+                <Button type="button" variant="outline" onClick={() => setShowForm(false)} disabled={loading}>
+                  Hủy
+                </Button>
+                <Button type="submit" disabled={loading} className="flex-1 bg-blue-600 hover:bg-blue-700">
+                  {loading ? 'Đang gửi...' : 'Gửi đơn đăng ký'}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Benefits Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
