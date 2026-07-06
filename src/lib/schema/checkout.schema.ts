@@ -9,7 +9,7 @@ export const checkoutSchema = z.object({
   townCity: z.string().min(1, 'Town/City is required'),
   phoneNumber: z.string().min(1, 'Phone number is required'),
   emailAddress: emailSchema,
-  paymentMethod: z.enum(['bank_transfer', 'momo', 'cod']),
+  paymentMethod: z.enum(['payos']),
   saveInfo: z.boolean().optional(),
 });
 

@@ -26,7 +26,7 @@ function CheckoutPage() {
       townCity: '',
       phoneNumber: '',
       emailAddress: '',
-      paymentMethod: 'cod' as const,
+      paymentMethod: 'payos' as const,
       saveInfo: false
     } as CheckoutFormValues,
     onSubmit: async ({ value }) => {

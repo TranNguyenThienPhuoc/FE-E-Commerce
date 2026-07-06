@@ -45,16 +45,20 @@ export default function Header() {
               Home
             </Link>
             <Link
-              to="/"
-              hash="#contact"
+              to="/contact"
               className="text-gray-700 hover:text-gray-900 transition-colors"
+              activeProps={{
+                className: "text-gray-900 underline underline-offset-4",
+              }}
             >
               Contact
             </Link>
             <Link
-              to="/"
-              hash="#about"
+              to="/about"
               className="text-gray-700 hover:text-gray-900 transition-colors"
+              activeProps={{
+                className: "text-gray-900 underline underline-offset-4",
+              }}
             >
               About
             </Link>
@@ -134,6 +138,13 @@ export default function Header() {
                       <DropdownMenuItem asChild>
                         <Link to="/sell" className="cursor-pointer">
                           Sell Product
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    {!canCreateProduct && !isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link to="/become-seller" className="cursor-pointer">
+                          Become a Seller
                         </Link>
                       </DropdownMenuItem>
                     )}

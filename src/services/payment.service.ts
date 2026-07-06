@@ -38,6 +38,27 @@ class PaymentService {
     );
   }
 
+  async createStripeCheckoutSession(orderId: string): Promise<ApiResponse<{ url: string }>> {
+    return await apiClient.post<ApiResponse<{ url: string }>, { orderId: string }>(
+      '/payments/create-checkout-session',
+      { orderId }
+    );
+  }
+
+  async createMomoPayment(orderId: string): Promise<ApiResponse<{ payUrl: string }>> {
+    return await apiClient.post<ApiResponse<{ payUrl: string }>, { orderId: string }>(
+      '/payments/momo/create',
+      { orderId }
+    );
+  }
+
+  async createPayosPayment(orderId: string): Promise<ApiResponse<{ checkoutUrl: string }>> {
+    return await apiClient.post<ApiResponse<{ checkoutUrl: string }>, { orderId: string }>(
+      '/payments/payos/create',
+      { orderId }
+    );
+  }
+
   async processPayment(id: string, data: ProcessPaymentRequest): Promise<ApiResponse<Payment>> {
     return await apiClient.post<ApiResponse<Payment>, ProcessPaymentRequest>(
       `/payments/${id}/process`,

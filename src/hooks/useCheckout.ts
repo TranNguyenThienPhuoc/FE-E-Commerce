@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useCart } from '@/hooks/useCart'
 import { CheckoutFormValues } from '@/lib/schema/checkout.schema'
 import { orderService } from '@/services/order.service'
+import { paymentService } from '@/services/payment.service'
 
 export interface CheckoutResult {
   orderNumber: string
@@ -53,6 +54,20 @@ export function useCheckout() {
       const order = orderResponse.data
 
       clearCart()
+
+      if (formData.paymentMethod === 'payos') {
+        const payosRes = await paymentService.createPayosPayment(order.id)
+        if (payosRes.success && payosRes.data?.checkoutUrl) {
+          window.location.href = payosRes.data.checkoutUrl
+          // Return early since the page will redirect
+          return {
+            orderNumber: order.orderNumber || order.id.substring(0, 8).toUpperCase(),
+            success: true,
+          }
+        } else {
+          throw new Error(payosRes.message || 'Failed to initialize PayOS checkout')
+        }
+      }
 
       setIsProcessing(false)
       return {

@@ -1,5 +1,4 @@
 import { Label } from '@/components/ui/label'
-import { type CheckoutFormValues } from '@/lib/schema/checkout.schema'
 
 interface PaymentMethodsProps {
   form: any
@@ -8,55 +7,27 @@ interface PaymentMethodsProps {
 export function PaymentMethods({ form }: PaymentMethodsProps) {
   return (
     <div className="space-y-4">
-      <form.Field
-        name="paymentMethod"
-      >
+      <form.Field name="paymentMethod">
         {(field: any) => (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between border rounded-md p-4">
               <div className="flex items-center space-x-3">
                 <input 
                   type="radio" 
-                  id="bank" 
+                  id="payos" 
                   name={field.name} 
-                  checked={field.state.value === 'bank_transfer'} 
-                  onChange={() => field.handleChange('bank_transfer')}
-                  className="w-5 h-5 accent-black"
+                  checked={field.state.value === 'payos'} 
+                  onChange={() => field.handleChange('payos')}
+                  className="w-5 h-5 accent-black mt-0.5"
                 />
-                <Label htmlFor="bank">Bank</Label>
+                <div className="flex flex-col">
+                  <Label htmlFor="payos" className="font-medium text-base">PayOS</Label>
+                  <span className="text-xs text-muted-foreground mt-1">VietQR - ATM - Visa - MasterCard — instant</span>
+                </div>
               </div>
               <div className="flex gap-2">
-                <div className="w-10 h-6 bg-gray-200 rounded flex items-center justify-center text-[8px]">VNPAY</div>
+                <div className="h-8 px-2 bg-blue-600 rounded flex items-center justify-center text-[10px] text-white font-bold tracking-wider">PayOS</div>
               </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <input 
-                  type="radio" 
-                  id="momo" 
-                  name={field.name} 
-                  checked={field.state.value === 'momo'} 
-                  onChange={() => field.handleChange('momo')}
-                  className="w-5 h-5 accent-black"
-                />
-                <Label htmlFor="momo">Ví MoMo</Label>
-              </div>
-              <div className="flex gap-2">
-                <div className="w-10 h-6 bg-pink-500 rounded flex items-center justify-center text-[8px] text-white font-bold">MOMO</div>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <input 
-                type="radio" 
-                id="cod" 
-                name={field.name} 
-                checked={field.state.value === 'cod'} 
-                onChange={() => field.handleChange('cod')}
-                className="w-5 h-5 accent-black"
-              />
-              <Label htmlFor="cod">Cash on delivery</Label>
             </div>
           </div>
         )}
