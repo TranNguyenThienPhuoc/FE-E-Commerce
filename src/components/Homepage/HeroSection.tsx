@@ -240,7 +240,6 @@ export default function HeroSection() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col md:flex-row gap-0 md:gap-8">
-        <CategorySidebar />
         <HeroCarousel />
       </div>
 
