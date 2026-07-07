@@ -1,10 +1,7 @@
 import ProductCard from "./ProductCard";
 import SectionHeader from "./SectionHeader";
-import { Button } from "@/components/ui/button";
 import { useProducts } from "@/hooks/useProducts";
-import { useNavigate } from "@tanstack/react-router";
 export default function FlashSalesSection() {
-  const navigate = useNavigate();
   const { data: productsData, isLoading } = useProducts({ isFlashSale: true, limit: 4 });
   const products = productsData?.data || [];
 
@@ -41,14 +38,6 @@ export default function FlashSalesSection() {
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
-      </div>
-      <div className="mt-6 flex justify-center">
-        <Button
-          className="bg-red-500 hover:bg-red-600 text-white py-3 px-8 rounded-lg font-semibold"
-          onClick={() => navigate({ to: "/search", search: { q: "" } })}
-        >
-          View All Products
-        </Button>
       </div>
     </section>
   );

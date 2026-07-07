@@ -11,6 +11,7 @@ interface ProductInfoProps {
   product: Product;
   onAddToCart: () => void;
   averageRating?: number;
+  reviewCount?: number;
 }
 
 function FlashSaleBanner({ price, originalPrice, endDate }: { price: number; originalPrice: number; endDate: string }) {
@@ -68,6 +69,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
   product,
   onAddToCart,
   averageRating = 0,
+  reviewCount,
 }) => {
   const renderStars = (rating: number) => {
     return (
@@ -123,7 +125,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
           </div>
           <Separator orientation="vertical" className="h-4" />
           <span className="text-sm text-muted-foreground font-medium">
-            {product.reviewCount || 0} Customer Reviews
+            {reviewCount ?? product.reviewCount ?? 0} Customer Reviews
           </span>
         </div>
       </div>

@@ -159,6 +159,7 @@ export function ProductDetails({ productId }: ProductDetailsProps) {
           product={product} 
           onAddToCart={handleAddToCart}
           averageRating={summary?.averageRating}
+          reviewCount={summary?.totalReviews}
         />
       </div>
 
