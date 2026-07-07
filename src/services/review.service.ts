@@ -25,9 +25,9 @@ class ReviewService {
   }
 
   async createReview(productId: string, data: CreateReviewRequest): Promise<ApiResponse<Review>> {
-    return await apiClient.post<ApiResponse<Review>, CreateReviewRequest & { productId: string }>(
-      '/reviews',
-      { ...data, productId }
+    return await apiClient.post<ApiResponse<Review>, CreateReviewRequest>(
+      `/products/${productId}/reviews`,
+      data
     );
   }
 
