@@ -182,11 +182,14 @@ export function ProductCard({
         {/* Price */}
         <div className="flex items-center gap-2 mb-2">
           <span className="text-lg font-bold text-red-500">
-            {discountedPrice.toLocaleString('vi-VN')}₫
+            {(product?.isFlashSale && product?.flashSalePrice != null ? product.flashSalePrice : discountedPrice).toLocaleString('vi-VN')}₫
           </span>
-          {discount && discount > 0 && (
-            <span className="text-sm text-gray-500 line-through">
-              {price.toLocaleString('vi-VN')}₫
+          {(product?.isFlashSale && product?.flashSalePrice != null ? price : (discount && discount > 0 ? price : null)) != null && (
+            <span className="text-sm text-gray-500 line-through flex items-center gap-1">
+              {(product?.isFlashSale && product?.flashSalePrice != null ? price : price).toLocaleString('vi-VN')}₫
+              {product?.isFlashSale && product?.flashSalePrice != null && (
+                <span className="text-red-500 ml-1">⏰</span>
+              )}
             </span>
           )}
         </div>

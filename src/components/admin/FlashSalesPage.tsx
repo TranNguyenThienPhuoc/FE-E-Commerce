@@ -244,7 +244,7 @@ function ProductSelectionForm({
   setSelectedProduct: (p: Product) => void 
 }) {
   const [search, setSearch] = useState('')
-  const { data } = useProducts({ search: search || undefined, limit: 5 })
+  const { data } = useProducts({ search: search || undefined, limit: 100 })
   const products = data?.data || []
 
   return (

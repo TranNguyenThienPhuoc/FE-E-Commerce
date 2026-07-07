@@ -1,9 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { CheckoutItem } from './CheckoutItem'
 import { PaymentMethods } from './PaymentMethods'
-import { type CheckoutFormValues } from '@/lib/schema/checkout.schema'
 import { Cart } from '@/interfaces'
 
 interface OrderSummaryProps {

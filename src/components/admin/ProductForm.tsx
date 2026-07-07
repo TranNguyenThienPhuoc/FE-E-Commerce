@@ -7,13 +7,7 @@ import { useToast } from '@/contexts/ToastContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+
 import {
   Field,
   FieldLabel,
@@ -210,22 +204,20 @@ export function ProductForm({ initialData, onSuccess, onCancel }: ProductFormPro
           <Field>
             <FieldLabel>Category</FieldLabel>
             <FieldContent>
-              <Select 
-                onValueChange={(value) => setValue('category', value, { shouldValidate: true })}
-                value={watch('category')}
-                disabled={isLoadingCategories}
-              >
-                <SelectTrigger data-invalid={!!errors.category}>
-                  <SelectValue placeholder={isLoadingCategories ? "Loading categories..." : "Select a category"} />
-                </SelectTrigger>
-                <SelectContent>
+              <div className="relative">
+                <Input
+                  list="category-list"
+                  placeholder={isLoadingCategories ? "Loading categories..." : "Select or type a category"}
+                  {...register('category')}
+                  data-invalid={!!errors.category}
+                  disabled={isLoadingCategories}
+                />
+                <datalist id="category-list">
                   {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </SelectItem>
+                    <option key={cat.id} value={cat.name} />
                   ))}
-                </SelectContent>
-              </Select>
+                </datalist>
+              </div>
               <FieldError errors={[errors.category]} />
             </FieldContent>
           </Field>

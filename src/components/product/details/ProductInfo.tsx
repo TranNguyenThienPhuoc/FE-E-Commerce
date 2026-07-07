@@ -1,5 +1,5 @@
-import React from "react";
-import { Star, ShoppingCart } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Star, ShoppingCart, Clock } from "lucide-react";
 import { Product } from "@/interfaces";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,51 @@ interface ProductInfoProps {
   product: Product;
   onAddToCart: () => void;
   averageRating?: number;
+}
+
+function FlashSaleBanner({ price, originalPrice, endDate }: { price: number; originalPrice: number; endDate: string }) {
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const diff = new Date(endDate).getTime() - new Date().getTime();
+      if (diff <= 0) {
+        clearInterval(timer);
+        return;
+      }
+      setTimeLeft({
+        hours: Math.floor((diff / (1000 * 60 * 60))),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [endDate]);
+
+  const pad = (num: number) => num.toString().padStart(2, "0");
+
+  return (
+    <div className="bg-[#ff5722] text-white rounded-md p-4 flex justify-between items-center w-full mb-4">
+      <div className="flex flex-col">
+        <div className="text-2xl italic font-black uppercase tracking-wide">
+          FLASH SALE
+        </div>
+        <div className="flex items-baseline gap-2 mt-1">
+          <span className="text-3xl font-bold">{price.toLocaleString('vi-VN')}₫</span>
+          <span className="text-sm line-through opacity-80">{originalPrice.toLocaleString('vi-VN')}₫</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 text-sm">
+        <Clock size={16} className="text-white" />
+        <span className="font-medium mr-1 uppercase">KẾT THÚC TRONG</span>
+        <div className="flex gap-1 text-black font-bold">
+          <span className="bg-black text-white px-2 py-1 rounded-sm text-sm font-mono tracking-wider">{pad(timeLeft.hours)}</span>
+          <span className="bg-black text-white px-2 py-1 rounded-sm text-sm font-mono tracking-wider">{pad(timeLeft.minutes)}</span>
+          <span className="bg-black text-white px-2 py-1 rounded-sm text-sm font-mono tracking-wider">{pad(timeLeft.seconds)}</span>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /**
@@ -84,11 +129,19 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
       </div>
 
       <div className="space-y-2">
-        <div className="flex items-baseline gap-4">
-          <p className="text-4xl font-bold text-primary">
-            {product.price.toLocaleString('vi-VN')}₫
-          </p>
-        </div>
+        {product.isFlashSale && product.flashSalePrice != null ? (
+          <FlashSaleBanner 
+            price={product.flashSalePrice} 
+            originalPrice={product.price}
+            endDate={product.flashSaleEndDate!} 
+          />
+        ) : (
+          <div className="flex items-baseline gap-4">
+            <p className="text-4xl font-bold text-primary">
+              {product.price.toLocaleString('vi-VN')}₫
+            </p>
+          </div>
+        )}
         <p
           className={cn(
             "text-sm font-medium",

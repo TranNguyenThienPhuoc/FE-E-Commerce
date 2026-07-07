@@ -20,14 +20,10 @@ function CheckoutPage() {
   const form = useForm({
     defaultValues: {
       firstName: '',
-      companyName: '',
       streetAddress: '',
-      apartment: '',
-      townCity: '',
       phoneNumber: '',
       emailAddress: '',
       paymentMethod: 'payos' as const,
-      saveInfo: false
     } as CheckoutFormValues,
     onSubmit: async ({ value }) => {
       try {
@@ -64,18 +60,7 @@ function CheckoutPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Breadcrumbs */}
-      <nav className="flex mb-10 text-sm text-muted-foreground">
-        <Link to="/" className="hover:text-primary">Account</Link>
-        <span className="mx-2">/</span>
-        <span className="hover:text-primary">My Account</span>
-        <span className="mx-2">/</span>
-        <span className="hover:text-primary">Product</span>
-        <span className="mx-2">/</span>
-        <Link to="/cart" className="hover:text-primary">View Cart</Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground font-medium">CheckOut</span>
-      </nav>
+
 
       <h1 className="text-3xl font-medium mb-10">Billing Details</h1>
 

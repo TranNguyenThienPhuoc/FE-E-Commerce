@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { Heart, Star, ShoppingCart, Eye } from 'lucide-react'
+import { Heart, Star, ShoppingCart, Eye, AlarmClock } from 'lucide-react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { cn, getImageUrl } from '@/lib/utils'
@@ -190,10 +190,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="p-4">
           <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-lg font-bold text-red-500">{product.price.toLocaleString('vi-VN')}₫</span>
-            {product.originalPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                {product.originalPrice.toLocaleString('vi-VN')}₫
+            <span className="text-lg font-bold text-red-500">
+              {(product.isFlashSale && product.flashSalePrice != null ? product.flashSalePrice : product.price).toLocaleString('vi-VN')}₫
+            </span>
+            {(product.isFlashSale && product.flashSalePrice != null ? product.price : product.originalPrice) != null && (
+              <span className="text-sm text-gray-500 line-through flex items-center gap-1">
+                {(product.isFlashSale && product.flashSalePrice != null ? product.price : product.originalPrice).toLocaleString('vi-VN')}₫
+                {product.isFlashSale && product.flashSalePrice != null && (
+                  <AlarmClock className="w-4 h-4 text-red-500" />
+                )}
               </span>
             )}
           </div>

@@ -10,6 +10,8 @@ export interface MockProduct {
   category: string
   isNew?: boolean
   showAddToCart?: boolean
+  isFlashSale?: boolean
+  flashSalePrice?: number
 }
 
 export interface Category {

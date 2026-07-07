@@ -35,8 +35,7 @@ export function useCheckout() {
       const shippingAddress = [
         formData.firstName,
         formData.phoneNumber,
-        `${formData.streetAddress}${formData.apartment ? `, ${formData.apartment}` : ''}`,
-        formData.townCity,
+        formData.streetAddress,
         formData.emailAddress
       ].filter(Boolean).join(' | ')
 
@@ -44,7 +43,6 @@ export function useCheckout() {
         cartId: cart.id,
         shippingAddress,
         paymentMethod: formData.paymentMethod,
-        notes: formData.saveInfo ? 'Save info requested' : undefined
       })
 
       if (!orderResponse.success || !orderResponse.data) {

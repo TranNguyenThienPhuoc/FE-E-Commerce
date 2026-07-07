@@ -138,102 +138,6 @@ function HeroCarousel() {
 }
 
 /**
- * MusicBanner Component
- * Promotional banner with a countdown timer.
- */
-function MusicBanner() {
-  const [timeLeft, setTimeLeft] = React.useState({
-    days: 5,
-    hours: 23,
-    minutes: 59,
-    seconds: 35,
-  });
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        const totalSeconds =
-          prev.days * 86400 +
-          prev.hours * 3600 +
-          prev.minutes * 60 +
-          prev.seconds -
-          1;
-        if (totalSeconds < 0) {
-          clearInterval(timer);
-          return prev;
-        }
-        return {
-          days: Math.floor(totalSeconds / 86400),
-          hours: Math.floor((totalSeconds % 86400) / 3600),
-          minutes: Math.floor((totalSeconds % 3600) / 60),
-          seconds: totalSeconds % 60,
-        };
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatNumber = (num: number) => num.toString().padStart(2, "0");
-
-  return (
-    <div className="bg-black text-white rounded-lg overflow-hidden relative mt-16">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-8 lg:p-12">
-        <div>
-          <span className="inline-block text-green-500 text-sm font-semibold mb-4">
-            Categories
-          </span>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-8 leading-tight">
-            Enhance Your
-            <br />
-            Music Experience
-          </h2>
-
-          <div className="flex gap-4 mb-8">
-            {[
-              { label: "Days", value: timeLeft.days },
-              { label: "Hours", value: timeLeft.hours },
-              { label: "Minutes", value: timeLeft.minutes },
-              { label: "Seconds", value: timeLeft.seconds },
-            ].map((item) => (
-              <div key={item.label} className="text-center">
-                <div className="bg-white rounded-full w-16 h-16 lg:w-20 lg:h-20 flex flex-col items-center justify-center">
-                  <span className="text-black text-base lg:text-lg font-bold leading-none">
-                    {formatNumber(item.value)}
-                  </span>
-                  <span className="text-black text-[10px] lg:text-xs mt-1">
-                    {item.label}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Button
-            variant="default"
-            size="lg"
-            className="bg-green-500 hover:bg-green-600 text-white border-none px-10"
-          >
-            Buy Now!
-          </Button>
-        </div>
-        <div className="flex justify-center lg:justify-end">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gray-400/20 blur-[100px] rounded-full" />
-            <img
-              src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600"
-              alt="JBL Speaker"
-              className="h-64 lg:h-96 object-contain relative z-10"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
  * Main HeroSection Component
  */
 export default function HeroSection() {
@@ -242,8 +146,6 @@ export default function HeroSection() {
       <div className="flex flex-col md:flex-row gap-0 md:gap-8">
         <HeroCarousel />
       </div>
-
-      <MusicBanner />
     </div>
   );
 }
