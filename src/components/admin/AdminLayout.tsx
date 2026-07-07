@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 const menuItems = [
   { title: "Products", icon: Package, path: "/admin/products" },
+  { title: "Categories", icon: Store, path: "/admin/categories" },
   { title: "Customers", icon: Users, path: "/admin/customers" },
   { title: "Support", icon: Headset, path: "/admin/support" },
 ];

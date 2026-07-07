@@ -9,8 +9,8 @@ import {
 
 class CategoryService {
 
-  async getCategories(): Promise<CategoryResponse> {
-    return await apiClient.get<CategoryResponse>('/categories');
+  async getCategories(params?: { page?: number, limit?: number }): Promise<CategoryResponse> {
+    return await apiClient.get<CategoryResponse>('/categories', params);
   }
 
 

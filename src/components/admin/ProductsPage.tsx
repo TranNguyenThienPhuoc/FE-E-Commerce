@@ -31,22 +31,18 @@ export function ProductsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined)
   const [productToDelete, setProductToDelete] = useState<string | null>(null)
+  const [page, setPage] = useState(1)
   
   const deferredSearchQuery = useDeferredValue(searchQuery)
   
   const { showToast } = useToast()
-  const { data: productsData, isLoading, error, refetch } = useProducts()
+  const { data: productsData, isLoading, error, refetch } = useProducts({ page, limit: 10, search: deferredSearchQuery })
   const deleteProductMutation = useDeleteProduct()
   
   const products = productsData?.data || []
+  const pagination = productsData?.pagination
   
-  const filteredProducts = useMemo(() => 
-    products.filter(product =>
-      product.name.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
-      (product.category?.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ?? false)
-    ),
-    [products, deferredSearchQuery]
-  )
+  const filteredProducts = products // Lọc đã được thực hiện ở Backend qua query search
 
   const handleAddProduct = () => {
     setSelectedProduct(undefined)
@@ -139,6 +135,61 @@ export function ProductsPage() {
             <Plus className="mr-2 h-4 w-4" />
             Thêm sản phẩm
           </Button>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Tổng sản phẩm</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : pagination?.total || statistics.total}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Sản phẩm trong hệ thống
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Chờ duyệt</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-yellow-600">
+                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.pending}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Cần xem xét và phê duyệt
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Sắp hết hàng</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-orange-600">
+                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.lowStock}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Sản phẩm dưới 20 đơn vị
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Hết hàng</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-red-600">
+                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.outOfStock}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Sản phẩm không còn hàng
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
         <Card>
@@ -264,6 +315,33 @@ export function ProductsPage() {
               </TableBody>
             </Table>
             )}
+            
+            {/* Pagination Controls */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="flex items-center justify-between px-2 py-4 border-t">
+                <div className="text-sm text-muted-foreground">
+                  Hiển thị trang {pagination.page} trên tổng số {pagination.totalPages} trang
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={pagination.page <= 1 || isLoading}
+                  >
+                    Trước
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
+                    disabled={pagination.page >= pagination.totalPages || isLoading}
+                  >
+                    Tiếp
+                  </Button>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -321,60 +399,9 @@ export function ProductsPage() {
           </DialogContent>
         </Dialog>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Tổng sản phẩm</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.total}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Sản phẩm trong hệ thống
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Chờ duyệt</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-yellow-600">
-                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.pending}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Cần xem xét và phê duyệt
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Sắp hết hàng</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-orange-600">
-                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.lowStock}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Sản phẩm dưới 20 đơn vị
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Hết hàng</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-red-600">
-                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.outOfStock}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Sản phẩm không còn hàng
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </DialogContent>
+        </Dialog>
     </div>
   )
 }
