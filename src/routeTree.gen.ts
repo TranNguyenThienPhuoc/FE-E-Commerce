@@ -19,8 +19,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
-import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
-import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
+import { Route as PaymentSuccessRouteImport } from './routes/payment.success'
+import { Route as PaymentCancelRouteImport } from './routes/payment.cancel'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AdminSupportRouteImport } from './routes/admin/support'
@@ -79,15 +79,15 @@ const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
   path: '/products/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
-  id: '/success',
-  path: '/success',
-  getParentRoute: () => CheckoutRoute,
+const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
+  id: '/payment/success',
+  path: '/payment/success',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
-  id: '/cancel',
-  path: '/cancel',
-  getParentRoute: () => CheckoutRoute,
+const PaymentCancelRoute = PaymentCancelRouteImport.update({
+  id: '/payment/cancel',
+  path: '/payment/cancel',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
@@ -130,7 +130,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRouteWithChildren
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
   '/wishlist': typeof WishlistRoute
@@ -141,8 +141,8 @@ export interface FileRoutesByFullPath {
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/checkout/cancel': typeof CheckoutCancelRoute
-  '/checkout/success': typeof CheckoutSuccessRoute
+  '/payment/cancel': typeof PaymentCancelRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -150,7 +150,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRouteWithChildren
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
   '/wishlist': typeof WishlistRoute
@@ -161,8 +161,8 @@ export interface FileRoutesByTo {
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/checkout/cancel': typeof CheckoutCancelRoute
-  '/checkout/success': typeof CheckoutSuccessRoute
+  '/payment/cancel': typeof PaymentCancelRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -172,7 +172,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRouteWithChildren
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
   '/wishlist': typeof WishlistRoute
@@ -183,8 +183,8 @@ export interface FileRoutesById {
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/checkout/cancel': typeof CheckoutCancelRoute
-  '/checkout/success': typeof CheckoutSuccessRoute
+  '/payment/cancel': typeof PaymentCancelRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -206,8 +206,8 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/auth/login'
     | '/auth/register'
-    | '/checkout/cancel'
-    | '/checkout/success'
+    | '/payment/cancel'
+    | '/payment/success'
     | '/products/$productId'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -226,8 +226,8 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/auth/login'
     | '/auth/register'
-    | '/checkout/cancel'
-    | '/checkout/success'
+    | '/payment/cancel'
+    | '/payment/success'
     | '/products/$productId'
     | '/admin'
   id:
@@ -247,8 +247,8 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/auth/login'
     | '/auth/register'
-    | '/checkout/cancel'
-    | '/checkout/success'
+    | '/payment/cancel'
+    | '/payment/success'
     | '/products/$productId'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -258,12 +258,14 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   CartRoute: typeof CartRoute
-  CheckoutRoute: typeof CheckoutRouteWithChildren
+  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   SearchRoute: typeof SearchRoute
   WishlistRoute: typeof WishlistRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  PaymentCancelRoute: typeof PaymentCancelRoute
+  PaymentSuccessRoute: typeof PaymentSuccessRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
@@ -339,19 +341,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/checkout/success': {
-      id: '/checkout/success'
-      path: '/success'
-      fullPath: '/checkout/success'
-      preLoaderRoute: typeof CheckoutSuccessRouteImport
-      parentRoute: typeof CheckoutRoute
+    '/payment/success': {
+      id: '/payment/success'
+      path: '/payment/success'
+      fullPath: '/payment/success'
+      preLoaderRoute: typeof PaymentSuccessRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/checkout/cancel': {
-      id: '/checkout/cancel'
-      path: '/cancel'
-      fullPath: '/checkout/cancel'
-      preLoaderRoute: typeof CheckoutCancelRouteImport
-      parentRoute: typeof CheckoutRoute
+    '/payment/cancel': {
+      id: '/payment/cancel'
+      path: '/payment/cancel'
+      fullPath: '/payment/cancel'
+      preLoaderRoute: typeof PaymentCancelRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
       id: '/auth/register'
@@ -425,31 +427,19 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface CheckoutRouteChildren {
-  CheckoutCancelRoute: typeof CheckoutCancelRoute
-  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
-}
-
-const CheckoutRouteChildren: CheckoutRouteChildren = {
-  CheckoutCancelRoute: CheckoutCancelRoute,
-  CheckoutSuccessRoute: CheckoutSuccessRoute,
-}
-
-const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
-  CheckoutRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   CartRoute: CartRoute,
-  CheckoutRoute: CheckoutRouteWithChildren,
+  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   SearchRoute: SearchRoute,
   WishlistRoute: WishlistRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  PaymentCancelRoute: PaymentCancelRoute,
+  PaymentSuccessRoute: PaymentSuccessRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
 }
 export const routeTree = rootRouteImport

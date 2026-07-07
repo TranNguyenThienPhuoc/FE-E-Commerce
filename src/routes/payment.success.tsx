@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2 } from 'lucide-react'
 
-export const Route = createFileRoute('/checkout/success')({
+export const Route = createFileRoute('/payment/success')({
   component: CheckoutSuccessComponent,
 })
 

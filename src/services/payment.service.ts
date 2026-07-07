@@ -54,7 +54,7 @@ class PaymentService {
 
   async createPayosPayment(orderId: string): Promise<ApiResponse<{ checkoutUrl: string }>> {
     return await apiClient.post<ApiResponse<{ checkoutUrl: string }>, { orderId: string }>(
-      '/payments/payos/create',
+      '/payments/create',
       { orderId }
     );
   }
