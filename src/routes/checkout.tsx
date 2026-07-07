@@ -29,13 +29,22 @@ function CheckoutPage() {
       try {
         const result = await processCheckout(value)
         if (result.success) {
-          showToast({
-            title: 'Order Placed Successfully',
-            description: `Your order ${result.orderNumber} has been placed.`,
-            variant: 'success',
-            showOverlay: true
-          })
-          navigate({ to: '/' })
+          if (!result.redirecting) {
+            showToast({
+              title: 'Order Placed Successfully',
+              description: `Your order ${result.orderNumber} has been placed.`,
+              variant: 'success',
+              showOverlay: true
+            })
+            navigate({ to: '/' })
+          } else {
+            // Hiển thị toast thông báo đang chuyển hướng
+            showToast({
+              title: 'Redirecting to Payment',
+              description: 'Please wait while we redirect you to the payment gateway...',
+              variant: 'info',
+            })
+          }
         }
       } catch (error) {
         showToast({

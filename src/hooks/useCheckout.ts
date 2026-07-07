@@ -7,6 +7,7 @@ import { paymentService } from '@/services/payment.service'
 export interface CheckoutResult {
   orderNumber: string
   success: boolean
+  redirecting?: boolean
 }
 
 export function useCheckout() {
@@ -61,6 +62,7 @@ export function useCheckout() {
           return {
             orderNumber: order.orderNumber || order.id.substring(0, 8).toUpperCase(),
             success: true,
+            redirecting: true,
           }
         } else {
           throw new Error(payosRes.message || 'Failed to initialize PayOS checkout')
