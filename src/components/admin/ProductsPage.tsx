@@ -153,19 +153,6 @@ export function ProductsPage() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Chờ duyệt</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-yellow-600">
-                {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.pending}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Cần xem xét và phê duyệt
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Sắp hết hàng</CardTitle>
             </CardHeader>
             <CardContent>

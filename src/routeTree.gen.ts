@@ -25,7 +25,9 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AdminSupportRouteImport } from './routes/admin/support'
 import { Route as AdminProductsRouteImport } from './routes/admin/products'
+import { Route as AdminFlashSalesRouteImport } from './routes/admin/flash-sales'
 import { Route as AdminCustomersRouteImport } from './routes/admin/customers'
+import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
@@ -107,9 +109,19 @@ const AdminProductsRoute = AdminProductsRouteImport.update({
   path: '/products',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFlashSalesRoute = AdminFlashSalesRouteImport.update({
+  id: '/flash-sales',
+  path: '/flash-sales',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCustomersRoute = AdminCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -122,7 +134,9 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
+  '/admin/flash-sales': typeof AdminFlashSalesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
@@ -140,7 +154,9 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
+  '/admin/flash-sales': typeof AdminFlashSalesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
@@ -160,7 +176,9 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/search': typeof SearchRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
+  '/admin/flash-sales': typeof AdminFlashSalesRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/support': typeof AdminSupportRoute
   '/auth/login': typeof AuthLoginRoute
@@ -181,7 +199,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/search'
     | '/wishlist'
+    | '/admin/categories'
     | '/admin/customers'
+    | '/admin/flash-sales'
     | '/admin/products'
     | '/admin/support'
     | '/auth/login'
@@ -199,7 +219,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/search'
     | '/wishlist'
+    | '/admin/categories'
     | '/admin/customers'
+    | '/admin/flash-sales'
     | '/admin/products'
     | '/admin/support'
     | '/auth/login'
@@ -218,7 +240,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/search'
     | '/wishlist'
+    | '/admin/categories'
     | '/admin/customers'
+    | '/admin/flash-sales'
     | '/admin/products'
     | '/admin/support'
     | '/auth/login'
@@ -357,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/flash-sales': {
+      id: '/admin/flash-sales'
+      path: '/flash-sales'
+      fullPath: '/admin/flash-sales'
+      preLoaderRoute: typeof AdminFlashSalesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/customers': {
       id: '/admin/customers'
       path: '/customers'
@@ -364,18 +395,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCustomersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
+  AdminFlashSalesRoute: typeof AdminFlashSalesRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminSupportRoute: typeof AdminSupportRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCustomersRoute: AdminCustomersRoute,
+  AdminFlashSalesRoute: AdminFlashSalesRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminSupportRoute: AdminSupportRoute,
   AdminIndexRoute: AdminIndexRoute,

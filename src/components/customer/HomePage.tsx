@@ -1,7 +1,5 @@
 import FlashSalesSection from "@/components/Homepage/FlashSalesSection";
-import BrowseCategorySection from "@/components/Homepage/BrowseCategorySection";
 import ProductGridSection from "@/components/Homepage/ProductGridSection";
-import NewArrivalSection from "@/components/Homepage/NewArrivalSection";
 import HeroSection from "@/components/Homepage/HeroSection";
 import { Separator } from "../ui/separator";
 import { useProducts } from "@/hooks/useProducts";
@@ -22,8 +20,6 @@ export default function HomePage() {
           <div className="w-full">
             <FlashSalesSection />
             <Separator />
-            <BrowseCategorySection />
-            <Separator />
             <ProductGridSection
               badge="This Month"
               title="Best Selling Products"
@@ -36,7 +32,6 @@ export default function HomePage() {
               products={exploreProducts}
               showViewAll
             />
-            <NewArrivalSection />
           </div>
         </div>
       </div>

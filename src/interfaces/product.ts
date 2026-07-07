@@ -22,6 +22,9 @@ export interface Product {
   variants?: ProductVariant[];
   createdAt: string;
   updatedAt: string;
+  isFlashSale?: boolean;
+  flashSalePrice?: number;
+  flashSaleEndDate?: string;
 }
 
 export interface ProductVariant {
@@ -67,6 +70,9 @@ export interface CreateProductRequest {
   category?: string;
   status?: ProductStatus;
   variants?: CreateVariantRequest[];
+  isFlashSale?: boolean;
+  flashSalePrice?: number;
+  flashSaleEndDate?: string;
 }
 
 export interface UpdateProductRequest {
@@ -78,6 +84,9 @@ export interface UpdateProductRequest {
   images?: string[];
   category?: string;
   status?: ProductStatus;
+  isFlashSale?: boolean;
+  flashSalePrice?: number;
+  flashSaleEndDate?: string;
 }
 
 export interface CreateCategoryRequest {

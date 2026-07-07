@@ -17,7 +17,7 @@ function ContactPage() {
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-      showToast({ type: 'success', title: 'Gửi tin nhắn thành công', message: 'Chúng tôi sẽ phản hồi bạn sớm nhất có thể!' });
+      showToast({ variant: 'success', title: 'Gửi tin nhắn thành công', description: 'Chúng tôi sẽ phản hồi bạn sớm nhất có thể!' });
       (e.target as HTMLFormElement).reset();
     }, 1000);
   };
@@ -61,7 +61,7 @@ function ContactPage() {
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Điện thoại hỗ trợ</h3>
                 <p className="mt-1 text-gray-500">
-                  Tổng đài: 1900 1234<br />
+                  0869759763<br />
                   Thứ 2 - Chủ Nhật (8:00 - 22:00)
                 </p>
               </div>
@@ -76,8 +76,7 @@ function ContactPage() {
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Email</h3>
                 <p className="mt-1 text-gray-500">
-                  support@zopee.vn<br />
-                  partnership@zopee.vn
+                  tranp13579@gmail.com
                 </p>
               </div>
             </div>
@@ -97,11 +96,6 @@ function ContactPage() {
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <Input id="email" type="email" required placeholder="Địa chỉ email của bạn" />
-            </div>
-            
-            <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Chủ đề</label>
-              <Input id="subject" required placeholder="Bạn cần hỗ trợ về vấn đề gì?" />
             </div>
             
             <div>

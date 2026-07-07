@@ -53,6 +53,8 @@ export interface ProductQueryParams extends SearchParams {
   minPrice?: number
   maxPrice?: number
   inStock?: boolean
+  isFlashSale?: boolean
+  status?: string
 }
 
 export interface OrderQueryParams extends SearchParams {
