@@ -62,7 +62,7 @@ export class ApiClient {
 
       switch (status) {
         case 401:
-          return "Session expired. Please log in again.";
+          return data?.message || "Session expired. Please log in again.";
         case 403:
           return "You do not have permission to perform this action.";
         case 404:
