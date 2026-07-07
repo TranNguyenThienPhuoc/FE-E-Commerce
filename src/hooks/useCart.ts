@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { cartService } from '@/services'
+import { authService } from '@/services/auth.service'
 import type { AddToCartRequest, UpdateCartItemRequest, RemoveFromCartRequest, Cart } from '@/interfaces/cart'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/contexts/ToastContext'
@@ -16,7 +17,9 @@ export function useCart() {
 
   const { showToast } = useToast()
 
-  const enabled = !!user
+  // Kiểm tra cả user state và token cookie để tránh query khi chưa đăng nhập
+  const token = authService.getAccessToken()
+  const enabled = !!user && !!token
 
   const cartQuery = useQuery({
     queryKey: cartKeys.byUser(user?.id),
@@ -30,6 +33,12 @@ export function useCart() {
     enabled,
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 10, // 10 minutes
+    retry: (failureCount, error) => {
+      // Không retry khi lỗi 401 (session expired) hoặc 403
+      const message = error instanceof Error ? error.message : ''
+      if (message.includes('Session expired') || message.includes('permission')) return false
+      return failureCount < 2
+    },
   })
 
   const addMutation = useMutation({

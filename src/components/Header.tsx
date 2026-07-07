@@ -3,7 +3,7 @@ import { Heart, ShoppingCart, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { Command, CommandInput } from "./ui/command";
 import { useAuth } from "@/contexts/AuthContext";
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/hooks/useCart";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import {
   DropdownMenu,

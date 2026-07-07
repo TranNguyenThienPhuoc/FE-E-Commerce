@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCart } from '@/hooks/useCart'
+import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/contexts/ToastContext'
 import { 
@@ -17,6 +18,7 @@ export const Route = createFileRoute('/cart')({
 function CartPage() {
   const navigate = useNavigate()
   const { showToast } = useToast()
+  const { isAuthenticated } = useAuth()
   const { 
     cart, 
     loading, 
@@ -50,8 +52,20 @@ function CartPage() {
     navigate({ to: '/checkout' })
   }
 
+  // Nếu chưa đăng nhập thì redirect về trang login
+  if (!isAuthenticated) {
+    navigate({ to: '/auth/login' })
+    return null
+  }
+
   if (loading && !cart) {
     return <CartLoading />
+  }
+
+  // Khi có lỗi session expired, redirect về login
+  if (error && error.includes('Session expired')) {
+    navigate({ to: '/auth/login' })
+    return null
   }
 
   if (error) {

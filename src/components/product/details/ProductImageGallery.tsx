@@ -23,11 +23,11 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   return (
     <div className="space-y-4">
       {/* Main Image Display */}
-      <div className="aspect-square overflow-hidden rounded-2xl bg-muted border shadow-sm">
+      <div className="overflow-hidden rounded-2xl bg-muted border shadow-sm max-h-[420px]">
         <img
           src={displayImages[selectedImage]}
           alt={`${productName} - View ${selectedImage + 1}`}
-          className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-contain max-h-[420px] transition-transform duration-500 hover:scale-105"
         />
       </div>
 

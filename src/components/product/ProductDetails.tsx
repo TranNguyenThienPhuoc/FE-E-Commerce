@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { useProductDetails } from "@/hooks/useProductDetails";
 import { useProductReviewMutation } from "@/hooks/useProductReviewMutation";
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { MESSAGES } from "@/lib/shared/constants/messages";
@@ -53,7 +53,7 @@ export function ProductDetails({ productId }: ProductDetailsProps) {
 
   // --- Handlers ---
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!isAuthenticated) {
       showToast({
         title: "Vui lòng đăng nhập",
@@ -66,13 +66,17 @@ export function ProductDetails({ productId }: ProductDetailsProps) {
     }
 
     if (product) {
-      addToCart(product as any, 1);
-      showToast({
-        title: MESSAGES.cart.addedToCart,
-        variant: "success",
-        duration: 2000,
-        showOverlay: true,
-      });
+      try {
+        await addToCart({ productId: product.id, quantity: 1 });
+        showToast({
+          title: MESSAGES.cart.addedToCart,
+          variant: "success",
+          duration: 2000,
+          showOverlay: true,
+        });
+      } catch (err) {
+        // error handled by useCart hook
+      }
     }
   };
 
