@@ -398,10 +398,6 @@ export function ProductsPage() {
             </div>
           </DialogContent>
         </Dialog>
-
-            </div>
-          </DialogContent>
-        </Dialog>
     </div>
   )
 }
