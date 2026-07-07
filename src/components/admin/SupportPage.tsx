@@ -23,94 +23,23 @@ import {
 } from '@/components/ui/dialog'
 import { Search, MessageSquare, Clock, CheckCircle, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
-
-interface SupportTicket {
-  id: string
-  customerId: string
-  customerName: string
-  customerEmail: string
-  subject: string
-  message: string
-  status: 'open' | 'in-progress' | 'resolved' | 'closed'
-  priority: 'low' | 'medium' | 'high' | 'urgent'
-  category: string
-  createdAt: string
-  updatedAt: string
-}
-
-const mockTickets: SupportTicket[] = [
-  {
-    id: 'ticket-001',
-    customerId: 'user-001',
-    customerName: 'Nguyễn Văn A',
-    customerEmail: 'nguyenvana@email.com',
-    subject: 'Sản phẩm bị lỗi',
-    message: 'Tôi nhận được sản phẩm nhưng bị lỗi, muốn đổi hàng',
-    status: 'open',
-    priority: 'high',
-    category: 'Đổi trả hàng',
-    createdAt: '2024-12-28T10:30:00Z',
-    updatedAt: '2024-12-28T10:30:00Z',
-  },
-  {
-    id: 'ticket-002',
-    customerId: 'user-002',
-    customerName: 'Trần Thị B',
-    customerEmail: 'tranthib@email.com',
-    subject: 'Chưa nhận được hàng',
-    message: 'Đã 5 ngày nhưng tôi vẫn chưa nhận được hàng',
-    status: 'in-progress',
-    priority: 'urgent',
-    category: 'Vận chuyển',
-    createdAt: '2024-12-27T14:20:00Z',
-    updatedAt: '2024-12-28T09:15:00Z',
-  },
-  {
-    id: 'ticket-003',
-    customerId: 'user-003',
-    customerName: 'Lê Văn C',
-    customerEmail: 'levanc@email.com',
-    subject: 'Hỏi về sản phẩm',
-    message: 'Sản phẩm này có màu khác không ạ?',
-    status: 'resolved',
-    priority: 'low',
-    category: 'Tư vấn',
-    createdAt: '2024-12-26T16:45:00Z',
-    updatedAt: '2024-12-27T10:30:00Z',
-  },
-  {
-    id: 'ticket-004',
-    customerId: 'user-004',
-    customerName: 'Phạm Thị D',
-    customerEmail: 'phamthid@email.com',
-    subject: 'Hoàn tiền',
-    message: 'Tôi muốn hủy đơn và hoàn tiền',
-    status: 'open',
-    priority: 'medium',
-    category: 'Hoàn tiền',
-    createdAt: '2024-12-28T08:00:00Z',
-    updatedAt: '2024-12-28T08:00:00Z',
-  },
-  {
-    id: 'ticket-005',
-    customerId: 'user-005',
-    customerName: 'Hoàng Văn E',
-    customerEmail: 'hoangvane@email.com',
-    subject: 'Không đăng nhập được',
-    message: 'Tôi quên mật khẩu, không đăng nhập được',
-    status: 'closed',
-    priority: 'medium',
-    category: 'Tài khoản',
-    createdAt: '2024-12-25T11:20:00Z',
-    updatedAt: '2024-12-26T14:10:00Z',
-  },
-]
+import { useSupportTickets } from '@/hooks/useSupportTickets'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useToast } from '@/contexts/ToastContext'
 
 export function SupportPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
+  const { tickets, isLoading, updateTicket, isUpdating } = useSupportTickets()
+  const { showToast } = useToast()
 
-  const filteredTickets = mockTickets.filter(ticket => {
+  const filteredTickets = (tickets || []).filter(ticket => {
     const matchesSearch = 
       ticket.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ticket.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -152,10 +81,19 @@ export function SupportPage() {
   }
 
   const statusCounts = {
-    open: mockTickets.filter(t => t.status === 'open').length,
-    inProgress: mockTickets.filter(t => t.status === 'in-progress').length,
-    resolved: mockTickets.filter(t => t.status === 'resolved').length,
-    closed: mockTickets.filter(t => t.status === 'closed').length,
+    open: (tickets || []).filter(t => t.status === 'open').length,
+    inProgress: (tickets || []).filter(t => t.status === 'in-progress').length,
+    resolved: (tickets || []).filter(t => t.status === 'resolved').length,
+    closed: (tickets || []).filter(t => t.status === 'closed').length,
+  }
+
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    try {
+      await updateTicket({ id, data: { status: newStatus as any } })
+      showToast({ variant: 'success', title: 'Cập nhật thành công', description: 'Trạng thái đã được lưu' })
+    } catch (e) {
+      showToast({ variant: 'error', title: 'Lỗi', description: 'Cập nhật thất bại' })
+    }
   }
 
   return (
@@ -288,7 +226,20 @@ export function SupportPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredTickets.map((ticket) => (
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      Đang tải dữ liệu...
+                    </TableCell>
+                  </TableRow>
+                ) : filteredTickets.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      Không có yêu cầu hỗ trợ nào
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredTickets.map((ticket) => (
                   <TableRow key={ticket.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -331,7 +282,23 @@ export function SupportPage() {
                             <div className="grid grid-cols-2 gap-4">
                               <div>
                                 <label className="text-sm font-medium">Trạng thái</label>
-                                <div className="mt-1">{getStatusBadge(ticket.status)}</div>
+                                <div className="mt-1">
+                                  <Select 
+                                    defaultValue={ticket.status}
+                                    onValueChange={(val) => handleStatusChange(ticket.id, val)}
+                                    disabled={isUpdating}
+                                  >
+                                    <SelectTrigger className="w-[180px]">
+                                      <SelectValue placeholder="Trạng thái" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="open">Mới</SelectItem>
+                                      <SelectItem value="in-progress">Đang xử lý</SelectItem>
+                                      <SelectItem value="resolved">Đã giải quyết</SelectItem>
+                                      <SelectItem value="closed">Đã đóng</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
                               </div>
                               <div>
                                 <label className="text-sm font-medium">Độ ưu tiên</label>
@@ -359,13 +326,15 @@ export function SupportPage() {
                           </div>
                           <DialogFooter>
                             <Button variant="outline">Đóng</Button>
-                            <Button>Trả lời khách hàng</Button>
+                            <Button onClick={() => showToast({ variant: 'default', title: 'Tính năng đang phát triển', description: 'Gửi email cho khách hàng sẽ sớm ra mắt!' })}>
+                              Trả lời khách hàng
+                            </Button>
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
                     </TableCell>
                   </TableRow>
-                ))}
+                )))}
               </TableBody>
             </Table>
           </CardContent>

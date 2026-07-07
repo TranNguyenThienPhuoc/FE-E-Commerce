@@ -59,20 +59,23 @@ export class ApiClient {
     if (error.response) {
       const status = error.response.status;
       const data = error.response.data as any;
+      const errorMsg = data?.error || data?.message;
+      const details = data?.details ? JSON.stringify(data.details) : '';
 
       switch (status) {
         case 401:
-          return data?.message || "Session expired. Please log in again.";
+          return errorMsg || "Session expired. Please log in again.";
         case 403:
           return "You do not have permission to perform this action.";
         case 404:
           return `Resource not found: ${error.config?.url || 'unknown'}`;
+        case 400:
         case 422:
-          return data?.message || "Validation error.";
+          return `${errorMsg || "Validation error."} ${details}`;
         case 500:
           return "Server error. Please try again later.";
         default:
-          return data?.message || `Error: ${status}`;
+          return errorMsg || `Error: ${status}`;
       }
     } else if (error.request) {
       return "Network error. Please check your internet connection.";

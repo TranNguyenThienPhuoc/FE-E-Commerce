@@ -6,20 +6,38 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { useToast } from '@/contexts/ToastContext';
 
+import { supportService } from '@/services/support.service';
+
 function ContactPage() {
   const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const form = e.target as HTMLFormElement;
+      const name = (form.elements.namedItem('name') as HTMLInputElement).value;
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+      // Default to "Liên hệ hỗ trợ" if subject is not provided in UI, though I will add subject field
+      const subject = (form.elements.namedItem('subject') as HTMLInputElement).value;
+      const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+
+      await supportService.createTicket({
+        customerName: name,
+        customerEmail: email,
+        subject,
+        message,
+      });
+
       showToast({ variant: 'success', title: 'Gửi tin nhắn thành công', description: 'Chúng tôi sẽ phản hồi bạn sớm nhất có thể!' });
-      (e.target as HTMLFormElement).reset();
-    }, 1000);
+      form.reset();
+    } catch (error) {
+      showToast({ variant: 'error', title: 'Gửi tin nhắn thất bại', description: 'Vui lòng thử lại sau.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -90,17 +108,22 @@ function ContactPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
-              <Input id="name" required placeholder="Nhập họ và tên của bạn" />
+              <Input id="name" name="name" required placeholder="Nhập họ và tên của bạn" />
             </div>
             
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <Input id="email" type="email" required placeholder="Địa chỉ email của bạn" />
+              <Input id="email" name="email" type="email" required placeholder="Địa chỉ email của bạn" />
+            </div>
+            
+            <div>
+              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Tiêu đề</label>
+              <Input id="subject" name="subject" required placeholder="Tiêu đề cần hỗ trợ" />
             </div>
             
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Nội dung</label>
-              <Textarea id="message" required rows={5} placeholder="Nhập chi tiết nội dung cần hỗ trợ..." />
+              <Textarea id="message" name="message" required rows={5} placeholder="Nhập chi tiết nội dung cần hỗ trợ..." />
             </div>
             
             <Button type="submit" className="w-full h-12 text-base" disabled={loading}>

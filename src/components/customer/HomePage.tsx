@@ -1,5 +1,7 @@
 import ProductGridSection from "@/components/Homepage/ProductGridSection";
 import HeroSection from "@/components/Homepage/HeroSection";
+import FlashSalesSection from "@/components/Homepage/FlashSalesSection";
+import { Separator } from "../ui/separator";
 import { useProducts } from "@/hooks/useProducts";
 
 export default function HomePage() {
@@ -16,6 +18,8 @@ export default function HomePage() {
 
         <div className="mt-8">
           <div className="w-full">
+            <FlashSalesSection />
+            <Separator />
             <ProductGridSection
               badge="This Month"
               title="Best Selling Products"
