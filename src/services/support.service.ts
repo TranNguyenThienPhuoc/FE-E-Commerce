@@ -1,4 +1,5 @@
 import { apiClient } from "./api";
+import { ApiResponse } from "@/interfaces";
 
 export interface CreateSupportTicketDTO {
   customerName: string;
@@ -32,17 +33,16 @@ export interface UpdateSupportTicketDTO {
 }
 
 export const supportService = {
-  async createTicket(data: CreateSupportTicketDTO): Promise<SupportTicket> {
-    return await apiClient.post<SupportTicket, CreateSupportTicketDTO>("/support-tickets", data);
+  async createTicket(data: CreateSupportTicketDTO): Promise<ApiResponse<SupportTicket>> {
+    return await apiClient.post<ApiResponse<SupportTicket>, CreateSupportTicketDTO>("/support-tickets", data);
   },
 
-  async getTickets(status?: string): Promise<SupportTicket[]> {
+  async getTickets(status?: string): Promise<ApiResponse<SupportTicket[]>> {
     const params = status && status !== "all" ? `?status=${status}` : "";
-    // Note: get in apiClient doesn't accept params object as 2nd arg easily if it's not defined
-    return await apiClient.get<SupportTicket[]>(`/support-tickets${params}`);
+    return await apiClient.get<ApiResponse<SupportTicket[]>>(`/support-tickets${params}`);
   },
 
-  async updateTicket(id: string, data: UpdateSupportTicketDTO): Promise<SupportTicket> {
-    return await apiClient.put<SupportTicket, UpdateSupportTicketDTO>(`/support-tickets/${id}`, data);
+  async updateTicket(id: string, data: UpdateSupportTicketDTO): Promise<ApiResponse<SupportTicket>> {
+    return await apiClient.put<ApiResponse<SupportTicket>, UpdateSupportTicketDTO>(`/support-tickets/${id}`, data);
   },
 };

@@ -18,7 +18,7 @@ export const useSupportTickets = (status?: string) => {
   });
 
   return {
-    tickets: ticketsQuery.data || [],
+    tickets: ticketsQuery.data?.data || [],
     isLoading: ticketsQuery.isLoading,
     isError: ticketsQuery.isError,
     updateTicket: updateTicketMutation.mutateAsync,
