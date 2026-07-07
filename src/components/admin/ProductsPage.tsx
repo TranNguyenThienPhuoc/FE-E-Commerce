@@ -37,9 +37,12 @@ export function ProductsPage() {
   
   const { showToast } = useToast()
   const { data: productsData, isLoading, error, refetch } = useProducts({ page, limit: 10, search: deferredSearchQuery })
+  // Fetch a larger dataset for accurate statistics
+  const { data: allProductsData } = useProducts({ limit: 1000 })
   const deleteProductMutation = useDeleteProduct()
   
   const products = productsData?.data || []
+  const allProductsForStats = allProductsData?.data || products
   const pagination = productsData?.pagination
   
   const filteredProducts = products // Lọc đã được thực hiện ở Backend qua query search
@@ -88,29 +91,29 @@ export function ProductsPage() {
 
 
   const statistics = useMemo(() => {
-    const lowStockCount = products.filter(p => {
+    const lowStockCount = allProductsForStats.filter(p => {
       const total = p.variants && p.variants.length > 0
         ? p.variants.reduce((sum, v) => sum + v.stock, 0)
         : p.stock
       return total > 0 && total <= 20
     }).length
     
-    const outOfStockCount = products.filter(p => {
+    const outOfStockCount = allProductsForStats.filter(p => {
       const total = p.variants && p.variants.length > 0
         ? p.variants.reduce((sum, v) => sum + v.stock, 0)
         : p.stock
       return total === 0
     }).length
 
-    const pendingCount = products.filter(p => p.status === 'pending').length
+    const pendingCount = allProductsForStats.filter(p => p.status === 'pending').length
 
     return {
-      total: products.length,
+      total: pagination?.total || allProductsForStats.length,
       lowStock: lowStockCount,
       outOfStock: outOfStockCount,
       pending: pendingCount
     }
-  }, [products])
+  }, [allProductsForStats, pagination?.total])
   
   useEffect(() => {
     if (error) {
@@ -160,7 +163,7 @@ export function ProductsPage() {
                 {isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : statistics.lowStock}
               </div>
               <p className="text-xs text-muted-foreground">
-                Sản phẩm dưới 20 đơn vị
+                Còn 1 - 20 đơn vị
               </p>
             </CardContent>
           </Card>

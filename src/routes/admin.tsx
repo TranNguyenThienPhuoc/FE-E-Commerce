@@ -4,6 +4,8 @@ import { authService } from '@/services/auth.service'
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: () => {
+    if (typeof window === 'undefined') return;
+
     const user = authService.getStoredUser()
 
     if (!user || user.role !== 'admin') {

@@ -35,8 +35,6 @@ export default function SearchPage() {
   const navigate = useNavigate()
   
   const [searchInput, setSearchInput] = useState(q)
-  const [localMinPrice, setLocalMinPrice] = useState(minPrice?.toString() || '')
-  const [localMaxPrice, setLocalMaxPrice] = useState(maxPrice?.toString() || '')
 
   const { data: categoriesResponse } = useCategories()
   const categories = useMemo(() => categoriesResponse?.data || [], [categoriesResponse])
@@ -75,8 +73,6 @@ export default function SearchPage() {
 
   const clearAllFilters = () => {
     setSearchInput('')
-    setLocalMinPrice('')
-    setLocalMaxPrice('')
     navigate({
       to: '/search',
       search: { 
@@ -97,8 +93,6 @@ export default function SearchPage() {
       setSearchInput('')
     } else {
       delete (newParams as any)[key]
-      if (key === 'minPrice') setLocalMinPrice('')
-      if (key === 'maxPrice') setLocalMaxPrice('')
     }
     
     navigate({
@@ -131,39 +125,6 @@ export default function SearchPage() {
               {cat.name}
             </button>
           ))}
-        </div>
-      </div>
-
-      <Separator />
-
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Price Range</h3>
-        <div className="flex items-center gap-2">
-          <Input
-            type="number"
-            placeholder="Min"
-            value={localMinPrice}
-            onChange={(e) => setLocalMinPrice(e.target.value)}
-            className="h-9"
-          />
-          <span className="text-gray-400">-</span>
-          <Input
-            type="number"
-            placeholder="Max"
-            value={localMaxPrice}
-            onChange={(e) => setLocalMaxPrice(e.target.value)}
-            className="h-9"
-          />
-          <Button 
-            size="sm" 
-            variant="secondary"
-            onClick={() => updateFilters({ 
-              minPrice: localMinPrice ? Number(localMinPrice) : undefined,
-              maxPrice: localMaxPrice ? Number(localMaxPrice) : undefined
-            })}
-          >
-            Go
-          </Button>
         </div>
       </div>
 
