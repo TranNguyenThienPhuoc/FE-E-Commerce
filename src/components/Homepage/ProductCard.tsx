@@ -95,7 +95,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div 
-      className="relative group"
+      className="relative group h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -151,7 +151,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         )}
       </Button>
 
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow border-0 py-0 gap-0">
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow border-0 py-0 gap-0 h-full flex flex-col">
         <div className="aspect-square bg-gray-100 overflow-hidden relative">
           <img
             src={getImageUrl(product.image || product.images?.[0])}
@@ -187,8 +187,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
 
-        <div className="p-4">
-          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
+        <div className="p-4 flex flex-col flex-1">
+          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[48px]">{product.name}</h3>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-lg font-bold text-red-500">
               {(product.isFlashSale && product.flashSalePrice != null ? product.flashSalePrice : product.price).toLocaleString('vi-VN')}₫

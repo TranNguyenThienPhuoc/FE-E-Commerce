@@ -93,7 +93,7 @@ export function ProductCard({
 
   return (
     <div
-      className="group relative bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+      className="group relative bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300 h-full flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -174,7 +174,7 @@ export function ProductCard({
       </div>
 
       {/* Product Info */}
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-1">
         <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[48px]">
           {name}
         </h3>

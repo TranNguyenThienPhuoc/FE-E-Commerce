@@ -77,12 +77,7 @@ function CartPage() {
   // Cart with items
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Breadcrumbs */}
-      <nav className="flex mb-10 text-sm text-muted-foreground">
-        <Link to="/" className="hover:text-primary">Home</Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground font-medium">Cart</span>
-      </nav>
+
 
       {/* Cart Table Header */}
       <div className="hidden md:grid grid-cols-4 gap-4 p-6 mb-6 bg-card rounded-sm shadow-sm border font-medium">
@@ -120,28 +115,14 @@ function CartPage() {
         </Button>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-10 items-start">
-        {/* Coupon Section */}
-        <div className="flex gap-4">
-          <input 
-            type="text" 
-            placeholder="Coupon Code" 
-            className="flex-1 px-6 py-3 border rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-          <Button className="bg-[#DB4444] hover:bg-[#C13E3E] text-white px-10 py-6 rounded-sm">
-            Apply Coupon
-          </Button>
-        </div>
-
+      <div className="flex justify-end items-start">
         {/* Order Summary */}
-        <div className="flex justify-end">
-          <CartSummary
-            totalPrice={getTotalPrice()}
-            itemCount={getItemCount()}
-            onCheckout={handleCheckout}
-            isLoading={loading}
-          />
-        </div>
+        <CartSummary
+          totalPrice={getTotalPrice()}
+          itemCount={getItemCount()}
+          onCheckout={handleCheckout}
+          isLoading={loading}
+        />
       </div>
     </div>
   )
