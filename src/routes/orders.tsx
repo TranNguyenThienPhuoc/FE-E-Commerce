@@ -1,18 +1,12 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { orderService } from '@/services/order.service'
 import { useAuth } from '@/contexts/AuthContext'
-import { Order, OrderStatus, OrderPaymentStatus } from '@/interfaces/order'
+import { Order } from '@/interfaces/order'
 import {
   Package,
-  Clock,
-  CheckCircle2,
-  Truck,
   XCircle,
-  ChevronRight,
   ShoppingBag,
-  RefreshCw,
-  RotateCcw,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -24,22 +18,7 @@ export const Route = createFileRoute('/orders')(
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-const STATUS_CONFIG: Record<OrderStatus, { label: string; color: string; bg: string; Icon: React.ElementType }> = {
-  pending:    { label: 'Chờ xác nhận', color: 'text-yellow-700', bg: 'bg-yellow-50 border-yellow-200',  Icon: Clock },
-  confirmed:  { label: 'Đã xác nhận',  color: 'text-blue-700',   bg: 'bg-blue-50 border-blue-200',      Icon: CheckCircle2 },
-  processing: { label: 'Đang xử lý',   color: 'text-indigo-700', bg: 'bg-indigo-50 border-indigo-200',  Icon: RefreshCw },
-  shipped:    { label: 'Đang giao',     color: 'text-purple-700', bg: 'bg-purple-50 border-purple-200',  Icon: Truck },
-  delivered:  { label: 'Đã giao',       color: 'text-green-700',  bg: 'bg-green-50 border-green-200',   Icon: CheckCircle2 },
-  cancelled:  { label: 'Đã hủy',        color: 'text-red-700',    bg: 'bg-red-50 border-red-200',       Icon: XCircle },
-  refunded:   { label: 'Đã hoàn tiền',  color: 'text-gray-700',   bg: 'bg-gray-50 border-gray-200',     Icon: RotateCcw },
-}
 
-const PAYMENT_STATUS_CONFIG: Record<OrderPaymentStatus, { label: string; color: string }> = {
-  pending:  { label: 'Chưa thanh toán', color: 'text-yellow-600' },
-  paid:     { label: 'Đã thanh toán',   color: 'text-green-600' },
-  failed:   { label: 'Thanh toán lỗi',  color: 'text-red-600' },
-  refunded: { label: 'Đã hoàn tiền',    color: 'text-gray-600' },
-}
 
 function formatPrice(amount: number) {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount)
@@ -55,9 +34,6 @@ function formatDate(dateStr: string) {
 // ─── Order Card ───────────────────────────────────────────────────────────
 
 function OrderCard({ order }: { order: Order }) {
-  const statusCfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.pending
-  const paymentCfg = PAYMENT_STATUS_CONFIG[order.paymentStatus] ?? PAYMENT_STATUS_CONFIG.pending
-  const { Icon } = statusCfg
   const orderId = order.orderNumber || order.id.substring(0, 8).toUpperCase()
 
   return (
@@ -72,13 +48,6 @@ function OrderCard({ order }: { order: Order }) {
             <p className="text-xs text-gray-500">Mã đơn hàng</p>
             <p className="font-semibold text-gray-800">#{orderId}</p>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Order status badge */}
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${statusCfg.bg} ${statusCfg.color}`}>
-            <Icon size={12} />
-            {statusCfg.label}
-          </span>
         </div>
       </div>
 
@@ -108,20 +77,10 @@ function OrderCard({ order }: { order: Order }) {
               <p className="text-xs text-gray-400">Đặt lúc</p>
               <p className="text-sm text-gray-600">{formatDate(order.createdAt)}</p>
             </div>
-            <div>
-              <p className="text-xs text-gray-400">Thanh toán</p>
-              <p className={`text-sm font-medium ${paymentCfg.color}`}>{paymentCfg.label}</p>
-            </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-lg font-bold text-[#DB4444]">{formatPrice(order.totalAmount)}</span>
-          <Link to={"/orders/$orderId" as any} params={{ orderId: order.id } as any}>
-            <Button size="sm" variant="outline" className="border-[#DB4444] text-[#DB4444] hover:bg-red-50 flex items-center gap-1">
-              Chi tiết
-              <ChevronRight size={14} />
-            </Button>
-          </Link>
         </div>
       </div>
     </div>
@@ -163,20 +122,11 @@ function OrdersPage() {
       {/* Page header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Đơn hàng của tôi</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Lịch sử mua hàng</h1>
           <p className="text-sm text-gray-500 mt-0.5">
             {!isLoading && `${orders.length} đơn hàng`}
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          className="flex items-center gap-1.5 text-gray-600"
-        >
-          <RefreshCw size={14} />
-          Làm mới
-        </Button>
       </div>
 
       {/* Loading */}
