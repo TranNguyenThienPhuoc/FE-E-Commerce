@@ -50,7 +50,7 @@ export class ApiClient {
       (response: AxiosResponse) => response,
       (error: AxiosError) => {
         // Tự động đăng xuất khi token hết hạn hoặc không hợp lệ
-        if (error.response?.status === 401) {
+        if (error.response?.status === 401 && !error.config?.url?.includes('/auth/login')) {
           cookies.remove("accessToken", { path: "/" });
           cookies.remove("user", { path: "/" });
           // Dispatch custom event để AuthContext lắng nghe và cập nhật state
