@@ -136,6 +136,13 @@ export default function Header() {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <a href="/orders" className="cursor-pointer flex items-center px-2 py-1.5 text-sm">
+                        <span className="mr-2">📦</span>
+                        <span>Đơn hàng của tôi</span>
+                      </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
 
                     {isAdmin && (
                       <>

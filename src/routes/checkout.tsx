@@ -42,7 +42,7 @@ function CheckoutPage() {
             showToast({
               title: 'Redirecting to Payment',
               description: 'Please wait while we redirect you to the payment gateway...',
-              variant: 'info',
+              variant: 'success',
             })
           }
         }
