@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export const Route = createFileRoute('/orders' as any)(
+export const Route = createFileRoute('/orders')(
   {
     component: OrdersPage,
   }

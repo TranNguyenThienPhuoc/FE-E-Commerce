@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/orders/$orderId' as any)({
+export const Route = createFileRoute('/orders/$orderId')({
   component: OrderDetailPage,
 })
 
