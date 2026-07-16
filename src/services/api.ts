@@ -49,6 +49,15 @@ export class ApiClient {
     this.client.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError) => {
+        // Tự động đăng xuất khi token hết hạn hoặc không hợp lệ
+        if (error.response?.status === 401) {
+          cookies.remove("accessToken", { path: "/" });
+          cookies.remove("user", { path: "/" });
+          // Dispatch custom event để AuthContext lắng nghe và cập nhật state
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("auth:logout"));
+          }
+        }
         const errorMessage = this.handleError(error);
         return Promise.reject(new Error(errorMessage));
       }

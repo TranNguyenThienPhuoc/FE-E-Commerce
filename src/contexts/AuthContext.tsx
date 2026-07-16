@@ -11,7 +11,6 @@ interface AuthContextType {
   isAuthenticated: boolean
   isAdmin: boolean
   isCustomer: boolean
-
   error: string | null
 }
 
@@ -21,6 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  // Khôi phục user từ cookie khi app khởi động
   useEffect(() => {
     const storedUser = authService.getStoredUser()
     if (storedUser) {
@@ -28,16 +28,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  // Lắng nghe event từ API interceptor khi token hết hạn (401)
+  useEffect(() => {
+    const handleAutoLogout = () => {
+      setUser(null)
+      setError(null)
+      // Chuyển hướng về trang login
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login'
+      }
+    }
+
+    window.addEventListener('auth:logout', handleAutoLogout)
+    return () => {
+      window.removeEventListener('auth:logout', handleAutoLogout)
+    }
+  }, [])
+
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setError(null)
       const response = await authService.login({ email, password })
-      
+
       if (response.success && response.data?.user) {
         setUser(response.data.user)
         return true
       }
-      
+
       setError(response.message || 'Login failed')
       return false
     } catch (err) {
@@ -51,11 +68,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setError(null)
       const response = await authService.register({ name, email, password })
-      
+
       if (response.success) {
         return true
       }
-      
+
       setError(response.message || 'Registration failed')
       return false
     } catch (err) {
@@ -93,7 +110,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin',
     isCustomer: user?.role === 'customer',
-
     error,
   }
 
