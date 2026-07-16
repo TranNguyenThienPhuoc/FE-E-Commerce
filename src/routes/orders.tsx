@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { orderService } from '@/services/order.service'
 import { useAuth } from '@/contexts/AuthContext'
@@ -37,53 +37,55 @@ function OrderCard({ order }: { order: Order }) {
   const orderId = order.orderNumber || order.id.substring(0, 8).toUpperCase()
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-gray-100 bg-gray-50">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-white rounded-full border border-gray-200">
-            <Package size={18} className="text-[#DB4444]" />
-          </div>
-          <div>
-            <p className="text-xs text-gray-500">Mã đơn hàng</p>
-            <p className="font-semibold text-gray-800">#{orderId}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Items preview */}
-      <div className="px-5 py-4">
-        <div className="space-y-2">
-          {order.items.slice(0, 3).map((item, i) => (
-            <div key={i} className="flex justify-between items-center text-sm">
-              <span className="text-gray-700 truncate max-w-[60%]">
-                {item.name}
-                <span className="text-gray-400 ml-1">x{item.quantity}</span>
-              </span>
-              <span className="text-gray-600 font-medium">{formatPrice(item.price * item.quantity)}</span>
+    <Link to={"/orders/$orderId" as any} params={{ orderId: order.id } as any} className="block group">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm group-hover:shadow-md transition-shadow overflow-hidden cursor-pointer">
+        {/* Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-gray-100 bg-gray-50">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-white rounded-full border border-gray-200">
+              <Package size={18} className="text-[#DB4444]" />
             </div>
-          ))}
-          {order.items.length > 3 && (
-            <p className="text-xs text-gray-400 italic">+{order.items.length - 3} sản phẩm khác</p>
-          )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-t border-gray-100">
-        <div className="space-y-0.5">
-          <div className="flex items-center gap-4">
             <div>
-              <p className="text-xs text-gray-400">Đặt lúc</p>
-              <p className="text-sm text-gray-600">{formatDate(order.createdAt)}</p>
+              <p className="text-xs text-gray-500">Mã đơn hàng</p>
+              <p className="font-semibold text-gray-800">#{orderId}</p>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-lg font-bold text-[#DB4444]">{formatPrice(order.totalAmount)}</span>
+
+        {/* Items preview */}
+        <div className="px-5 py-4">
+          <div className="space-y-2">
+            {order.items.slice(0, 3).map((item, i) => (
+              <div key={i} className="flex justify-between items-center text-sm">
+                <span className="text-gray-700 truncate max-w-[60%]">
+                  {item.name}
+                  <span className="text-gray-400 ml-1">x{item.quantity}</span>
+                </span>
+                <span className="text-gray-600 font-medium">{formatPrice(item.price * item.quantity)}</span>
+              </div>
+            ))}
+            {order.items.length > 3 && (
+              <p className="text-xs text-gray-400 italic">+{order.items.length - 3} sản phẩm khác</p>
+            )}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-t border-gray-100">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-4">
+              <div>
+                <p className="text-xs text-gray-400">Đặt lúc</p>
+                <p className="text-sm text-gray-600">{formatDate(order.createdAt)}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-lg font-bold text-[#DB4444]">{formatPrice(order.totalAmount)}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
