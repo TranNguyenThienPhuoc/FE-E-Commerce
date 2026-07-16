@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export const Route = createFileRoute('/orders')(
+export const Route = createFileRoute('/orders' as any)(
   {
     component: OrdersPage,
   }
@@ -116,7 +116,7 @@ function OrderCard({ order }: { order: Order }) {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-lg font-bold text-[#DB4444]">{formatPrice(order.totalAmount)}</span>
-          <Link to="/orders/$orderId" params={{ orderId: order.id }}>
+          <Link to={"/orders/$orderId" as any} params={{ orderId: order.id } as any}>
             <Button size="sm" variant="outline" className="border-[#DB4444] text-[#DB4444] hover:bg-red-50 flex items-center gap-1">
               Chi tiết
               <ChevronRight size={14} />
@@ -147,7 +147,7 @@ function OrdersPage() {
         <h2 className="text-2xl font-bold text-gray-700 mb-2">Bạn chưa đăng nhập</h2>
         <p className="text-gray-500 mb-6">Vui lòng đăng nhập để xem lịch sử đơn hàng</p>
         <Button
-          onClick={() => navigate({ to: '/login' })}
+          onClick={() => navigate({ to: '/login' as any })}
           className="bg-[#DB4444] hover:bg-[#C13E3E]"
         >
           Đăng nhập
@@ -204,7 +204,7 @@ function OrdersPage() {
           <h3 className="text-xl font-semibold text-gray-600 mb-2">Chưa có đơn hàng nào</h3>
           <p className="text-gray-400 mb-6">Hãy mua sắm và đặt hàng đầu tiên của bạn!</p>
           <Button
-            onClick={() => navigate({ to: '/products' })}
+            onClick={() => navigate({ to: '/products' as any })}
             className="bg-[#DB4444] hover:bg-[#C13E3E]"
           >
             Mua sắm ngay

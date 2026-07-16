@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/orders/$orderId')({
+export const Route = createFileRoute('/orders/$orderId' as any)({
   component: OrderDetailPage,
 })
 
@@ -124,7 +124,7 @@ function OrderDetailPage() {
   })
 
   if (!isAuthenticated) {
-    navigate({ to: '/login' })
+    navigate({ to: '/login' as any })
     return null
   }
 
@@ -141,7 +141,7 @@ function OrderDetailPage() {
       <div className="container mx-auto px-4 py-20 text-center">
         <XCircle size={48} className="text-red-400 mx-auto mb-3" />
         <p className="text-gray-600 mb-4">Không tìm thấy đơn hàng này.</p>
-        <Button onClick={() => navigate({ to: '/orders' })} variant="outline">← Quay lại</Button>
+        <Button onClick={() => navigate({ to: '/orders' as any })} variant="outline">← Quay lại</Button>
       </div>
     )
   }
@@ -156,7 +156,7 @@ function OrderDetailPage() {
     <div className="container mx-auto px-4 py-10 max-w-2xl">
       {/* Back */}
       <button
-        onClick={() => navigate({ to: '/orders' })}
+        onClick={() => navigate({ to: '/orders' as any })}
         className="flex items-center gap-1.5 text-gray-500 hover:text-gray-800 mb-6 transition-colors text-sm"
       >
         <ArrowLeft size={16} /> Quay lại danh sách đơn
